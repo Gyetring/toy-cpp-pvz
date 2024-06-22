@@ -11,7 +11,7 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
-    for (auto& object : objects)
+    for (auto &object : objects)
         object->Update();
     return LevelStatus::ONGOING;
 }
