@@ -38,6 +38,7 @@ ENDIF()
 add_subdirectory(src/Framework/)
 add_subdirectory(src/GameObject/)
 add_subdirectory(src/GameWorld/)
+add_subdirectory(src/Interactive)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(

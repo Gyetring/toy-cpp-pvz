@@ -22,10 +22,9 @@ LevelStatus GameWorld::Update()
 void GameWorld::CleanUp()
 {
 }
-/*
-void GameWorld::notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr) {
-    //TODO
-    auto position = std::static_pointer_cast<OneLawn> (gameObjectPtr);
-    mObjects.emplace_back(std::make_shared<Plant>(
-        position->getXGrid(), position->getYGrid()));}*/
 
+void GameWorld::notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr) {
+    //TODO: by the type of the objects and the hand's status do the corresponding things
+    auto position = std::static_pointer_cast<OneLawn> (gameObjectPtr);
+    mObjects.emplace_back(std::make_shared<SunFlower>(
+        position->getXGrid(), position->getYGrid()));}

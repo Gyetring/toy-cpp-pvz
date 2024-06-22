@@ -7,6 +7,7 @@
 #include "WorldBase.hpp"
 
 #include "GameObject.hpp"
+#include "Interactive.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
@@ -25,7 +26,7 @@ public:
 
     void CleanUp() override;
 
-    /*void notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr) {};*/
+    void notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr);
 
 private:
     std::list<std::shared_ptr<GameObject>> mObjects;
