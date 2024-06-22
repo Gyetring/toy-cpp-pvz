@@ -11,6 +11,7 @@
 #include "TextBase.hpp"
 #include "utils.hpp"
 
+
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
 public:
@@ -24,8 +25,10 @@ public:
 
     void CleanUp() override;
 
+    /*void notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr) {};*/
+
 private:
-    std::list<std::shared_ptr<GameObject>> objects; // notice the pointer
+    std::list<std::shared_ptr<GameObject>> mObjects;
 };
 
 #endif // !GAMEWORLD_HPP__
