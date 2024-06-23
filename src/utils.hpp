@@ -43,6 +43,17 @@ const int FIRST_COL_CENTER = 75;
 const int GAME_ROWS = 5;
 const int GAME_COLS = 9;
 
+const int FIRST_SERIAL_X = 125;
+const int FIRST_SERIAL_Y = 555;
+const int SERIAL_WIDTH = 50;
+const int SERIAL_HEIGHT = 70;
+
+const int SUNFLOWER_COOLDOWN = 360;
+
+const int SUNFLOWER_COST = 50;
+
+const int SUNFLOWER_SERIAL = 0;
+
 using ImageID = int;
 
 const ImageID IMGID_NONE = -1;

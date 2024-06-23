@@ -16,7 +16,6 @@
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
 public:
-    // Use shared_from_this() instead of "this" to create a pointer to oneself.
     GameWorld();
     virtual ~GameWorld();
 
@@ -26,10 +25,16 @@ public:
 
     void CleanUp() override;
 
-    void notifyMeClicked(std::shared_ptr<GameObject> gameObjectPtr);
+    void tryPlant(std::shared_ptr<OneLawn>,std::shared_ptr<Seed>);
+
+    void notifyMeClicked(std::shared_ptr<Interactive>);
+
+
 
 private:
     std::list<std::shared_ptr<GameObject>> mObjects;
+    std::shared_ptr<Interactive> mHand=nullptr;
+
 };
 
 #endif // !GAMEWORLD_HPP__

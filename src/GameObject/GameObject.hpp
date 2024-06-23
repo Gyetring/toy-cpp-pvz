@@ -5,13 +5,20 @@
 #include "ObjectBase.hpp"
 
 class GameWorld;
-// Declares the class name GameWorld so that its pointers can be used.
 using pGameWorld = std::shared_ptr<GameWorld>;
+
+using TYPE_ID = int;
+const TYPE_ID TID_BACKGROUND = 0;
+const TYPE_ID TID_LAWN = 1;
+const TYPE_ID TID_PLANT = 2;
+const TYPE_ID TID_SEED = 3;
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {
 public:
     using std::enable_shared_from_this<GameObject>::shared_from_this;
+
+    virtual TYPE_ID getType() const = 0;
 
 private:
 protected:
@@ -27,6 +34,8 @@ public:
                               LAYER_BACKGROUND, 0, 0, ANIMID_NO_ANIMATION) {}
     void OnClick() override {}
     void Update() override {}
+
+    TYPE_ID getType() const override { return TID_BACKGROUND; }
 };
 
 class Entity : public GameObject {
@@ -43,9 +52,14 @@ public:
         :Entity(img, FIRST_ROW_CENTER + xGrid * LAWN_GRID_WIDTH,
             FIRST_COL_CENTER + yGrid * LAWN_GRID_HEIGHT, LAYER_PLANTS,
             ANIMID_IDLE_ANIM, hp) {}
+
+    TYPE_ID getType() const override { return TID_PLANT; }
 };
 
 class SunFlower : public Plant {
+private:
+    int mTimeLeft;
+
 public:
     SunFlower(int xGrid, int yGrid) : Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300){}
     void OnClick() override {};
