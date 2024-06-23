@@ -6,15 +6,19 @@
 #include "utils.hpp"
 
 class Plant :public Entity {
+protected:
+    int mTimeLeft;
+
 public:
-    Plant(ImageID img, int xGrid, int yGrid, int hp);
+    const int mCost;//trivial
+    Plant(ImageID img, int xGrid, int yGrid, int hp, int cost,int timeLeft);
     TYPE_ID getType() const override;
+
 };
 
 class SunFlower : public Plant {
 private:
     pGameWorld mManager;
-    int mTimeLeft;
 
 public:
     SunFlower(int xGrid, int yGrid, pGameWorld manager);

@@ -54,8 +54,8 @@ const int SUNSHOW_Y = 520;
 
 const int SUN_FROM_FLOWER_VELOCITY = 2;
 const int SUN_FROM_FLOWER_TIME = 10;
-const int SUN_FROM_SKY_VELOCITY = 10;
-const int SUN_FROM_SKY_TIME = 600;
+const int SUN_FROM_SKY_VELOCITY = 5;
+const int SUN_FROM_SKY_TIME = 120;
 
 const int SUNFLOWER_COOLDOWN = 360;
 
@@ -102,11 +102,11 @@ const int MAX_LAYERS = 7;
 using LayerID = int;
 
 const LayerID LAYER_SUN = 0;
-const LayerID LAYER_LAWN_AND_SEED = 1;
-const LayerID LAYER_PROJECTILES = 2;
-const LayerID LAYER_ZOMBIE = 3;
-const LayerID LAYER_PLANTS = 4;
-const LayerID LAYER_COOLDOWN_MASK = 5;
+const LayerID LAYER_COOLDOWN_MASK = 1;
+const LayerID LAYER_LAWN_AND_SEED = 2;
+const LayerID LAYER_PROJECTILES = 3;
+const LayerID LAYER_ZOMBIE = 4;
+const LayerID LAYER_PLANTS = 5;
 const LayerID LAYER_BACKGROUND = 6;
 
 const int MS_PER_FRAME = 33;

@@ -27,23 +27,45 @@ void OneLawn::setOccupied(bool state) { mOccupied = state;}
 
 TYPE_ID OneLawn::getType() const{ return TID_LAWN; }
 
-Seed::Seed(ImageID img, int serial, int cost, int coolDown,  pGameWorld manager)
+Seed::Seed(ImageID img, int serial, int cost,int coolDown,  pGameWorld manager)
     :Interactive(img,FIRST_SERIAL_X+serial*SERIAL_WIDTH,FIRST_SERIAL_Y,
         LAYER_LAWN_AND_SEED,SERIAL_WIDTH,SERIAL_HEIGHT,ANIMID_NO_ANIMATION,manager),
-    mCost(cost),mTimeLeft(coolDown){}
+    mCost(cost),mCoolDown(coolDown){}
 
 TYPE_ID Seed::getType() const{ return TID_SEED; }
 
 SunFlowerSeed::SunFlowerSeed(pGameWorld manager)
-    :Seed(IMGID_SEED_SUNFLOWER,SUNFLOWER_SERIAL,SUNFLOWER_COST,
-        SUNFLOWER_COOLDOWN,manager){}
+    :Seed(IMGID_SEED_SUNFLOWER,SUNFLOWER_SERIAL,SUNFLOWER_COST,SUNFLOWER_COOLDOWN,manager){}
 
 void SunFlowerSeed::Update(){}
 
-Sun::Sun(int xStart, int yStart, pGameWorld manager)
+bool SunFlowerSeed::askPlant(std::shared_ptr<OneLawn> lawn)
+{
+    return mManager->tryPlant(lawn, std::make_shared<SunFlower>
+        (lawn->getXGrid(), lawn->getYGrid(), mManager));
+}
+
+CoolDownMask::CoolDownMask(int x, int y, int time)
+    :GameObject(IMGID_COOLDOWN_MASK, x, y, LAYER_COOLDOWN_MASK, SERIAL_WIDTH,
+        SERIAL_HEIGHT, ANIMID_NO_ANIMATION),mTimeLeft(time) {}
+
+void CoolDownMask::OnClick() {}
+
+void CoolDownMask::Update(){
+    if (mLife) {
+        if (mTimeLeft <= 0) mLife = false;
+        else mTimeLeft--;
+    }
+}
+
+TYPE_ID CoolDownMask::getType() const { return TID_COOLDOWN; }
+
+
+
+Sun::Sun(int xStart, int yStart,int moveDuration, pGameWorld manager)
     :Interactive(IMGID_SUN, xStart, yStart,LAYER_SUN,
         SUN_WIDTH, SUN_HEIGHT,ANIMID_IDLE_ANIM, manager),
-    gain(SUN_GAIN), startPoint(xStart,yStart), moveTick(0) {}
+    gain(SUN_GAIN), startPoint(xStart,yStart), moveTick(0),mMoveDuration(moveDuration) {}
 
 TYPE_ID Sun::getType() const { return TID_SUN; }
 
@@ -51,7 +73,7 @@ Coordinate Sun::orbitNextCoord() { return startPoint; }
 
 
 SunFromFlower::SunFromFlower(int xStart, int yStart, pGameWorld manager)
-    :Sun(xStart, yStart, manager) {}
+    :Sun(xStart, yStart,SUN_FROM_FLOWER_TIME,manager) {}
 
 Coordinate SunFromFlower::orbitNextCoord()
 {
@@ -61,7 +83,7 @@ Coordinate SunFromFlower::orbitNextCoord()
 
 void Sun::Update()
 {
-    if (moveTick < SUN_FROM_FLOWER_TIME) {
+    if (moveTick < mMoveDuration) {
         Coordinate next(orbitNextCoord());
         MoveTo(next.first, next.second);
         moveTick++;
@@ -69,7 +91,7 @@ void Sun::Update()
 }
 
 SunFromSky::SunFromSky(int xStart, int yStart, pGameWorld manager)
-    :Sun(xStart, yStart, manager){}
+    :Sun(xStart, yStart,SUN_FROM_SKY_TIME, manager){}
 
 Coordinate SunFromSky::orbitNextCoord()
 {

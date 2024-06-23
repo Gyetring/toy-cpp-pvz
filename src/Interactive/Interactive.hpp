@@ -36,22 +36,31 @@ public:
 
 };
 
-class Seed : public Interactive {
-protected:
-    const int mCost;
+class CoolDownMask :public GameObject {
+private:
     int mTimeLeft;
 
 public:
-    Seed(ImageID img, int Serial, int cost, int coolDown, pGameWorld manager);
-
+    CoolDownMask(int x, int y, int time);
+    void OnClick() override;
+    void Update() override;
     TYPE_ID getType() const override;
+};
 
+class Seed : public Interactive {
+public:
+    const int mCost;//trivial
+    const int mCoolDown;//trivial
+    Seed(ImageID img, int Serial, int cost, int coolDown, pGameWorld manager);
+    TYPE_ID getType() const override;
+    virtual bool askPlant(std::shared_ptr<OneLawn>) = 0;
 };
 
 class SunFlowerSeed : public Seed {
 public:
     SunFlowerSeed(pGameWorld manager);
     void Update() override;
+    bool askPlant(std::shared_ptr<OneLawn>) override;
 };
 
 using Coordinate = std::pair<int, int>;
@@ -60,10 +69,11 @@ class Sun : public Interactive {
 protected:
     Coordinate startPoint;
     int moveTick;
+    int mMoveDuration;
 
 public:
-    const int gain; //because it is trivial and const
-    Sun(int xStart, int yStart, pGameWorld manager);
+    const int gain; //trivial
+    Sun(int xStart, int yStart,int moveDuration, pGameWorld manager);
     TYPE_ID getType() const override;
     virtual Coordinate orbitNextCoord();
     void Update()override;
@@ -80,6 +90,8 @@ public:
     SunFromSky(int xStart, int yStart, pGameWorld manager);
     Coordinate orbitNextCoord() override;
 };
+
+
 
 
 #endif // !INTERACTIVE_HPP__

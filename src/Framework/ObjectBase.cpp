@@ -39,6 +39,8 @@ void ObjectBase::MoveTo(int x, int y) {
   m_y = y;
 }
 
+void ObjectBase::ChangeLayer(LayerID target) { m_layer = target;}
+
 void ObjectBase::ChangeImage(ImageID imageID) {
   m_imageID = imageID;
 }

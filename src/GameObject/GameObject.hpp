@@ -13,15 +13,18 @@ const TYPE_ID TID_LAWN = 1;
 const TYPE_ID TID_PLANT = 2;
 const TYPE_ID TID_SEED = 3;
 const TYPE_ID TID_SUN = 4;
+const TYPE_ID TID_COOLDOWN = 5;
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {
 public:
     using std::enable_shared_from_this<GameObject>::shared_from_this;
     virtual TYPE_ID getType() const = 0;
+    bool lifeStatus() const;
 
 private:
 protected:
+    bool mLife;
     GameObject(const ImageID& imageID, const int& x, const int& y, const LayerID& layer,
         const int& width, const int& height, const AnimID& animID);
 };
@@ -32,7 +35,6 @@ public:
     BackGround();
     void OnClick() override;
     void Update() override;
-
     TYPE_ID getType() const override;
 };
 
