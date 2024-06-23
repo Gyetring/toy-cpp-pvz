@@ -2,16 +2,16 @@
 #define INTERACTIVE_HPP__
 
 #include "GameObject.hpp"
-#include "Plant.hpp"
-#include "Sun.hpp"
 #include "GameWorld.hpp"
+
 
 class Interactive : public GameObject {
 protected:
     pGameWorld mManager;
 
 public:
-    Interactive(ImageID img, int x, int y, int width, int height, pGameWorld manager);
+    Interactive(ImageID img, int x, int y,LayerID layer, int width, int height,AnimID animID, 
+        pGameWorld manager);
     void OnClick() override;
 
 };
@@ -53,5 +53,33 @@ public:
     SunFlowerSeed(pGameWorld manager);
     void Update() override;
 };
+
+using Coordinate = std::pair<int, int>;
+
+class Sun : public Interactive {
+protected:
+    Coordinate startPoint;
+    int moveTick;
+
+public:
+    const int gain; //because it is trivial and const
+    Sun(int xStart, int yStart, pGameWorld manager);
+    TYPE_ID getType() const override;
+    virtual Coordinate orbitNextCoord();
+    void Update()override;
+};
+
+class SunFromFlower :public Sun {
+public:
+    SunFromFlower(int xStart, int yStart, pGameWorld manager);
+    Coordinate orbitNextCoord() override;
+};
+
+class SunFromSky :public Sun {
+public:
+    SunFromSky(int xStart, int yStart, pGameWorld manager);
+    Coordinate orbitNextCoord() override;
+};
+
 
 #endif // !INTERACTIVE_HPP__

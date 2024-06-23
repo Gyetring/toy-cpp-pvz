@@ -12,6 +12,7 @@ const TYPE_ID TID_BACKGROUND = 0;
 const TYPE_ID TID_LAWN = 1;
 const TYPE_ID TID_PLANT = 2;
 const TYPE_ID TID_SEED = 3;
+const TYPE_ID TID_SUN = 4;
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {

@@ -47,9 +47,19 @@ const int FIRST_SERIAL_X = 125;
 const int FIRST_SERIAL_Y = 555;
 const int SERIAL_WIDTH = 50;
 const int SERIAL_HEIGHT = 70;
+const int SUN_WIDTH = 80;
+const int SUN_HEIGHT = 80;
+const int SUNSHOW_X = 60;
+const int SUNSHOW_Y = 520;
+
+const int SUN_FROM_FLOWER_VELOCITY = 2;
+const int SUN_FROM_FLOWER_TIME = 10;
+const int SUN_FROM_SKY_VELOCITY = 10;
+const int SUN_FROM_SKY_TIME = 600;
 
 const int SUNFLOWER_COOLDOWN = 360;
 
+const int SUN_GAIN = 25;
 const int SUNFLOWER_COST = 50;
 
 const int SUNFLOWER_SERIAL = 0;
@@ -92,11 +102,11 @@ const int MAX_LAYERS = 7;
 using LayerID = int;
 
 const LayerID LAYER_SUN = 0;
-const LayerID LAYER_ZOMBIES = 1;
+const LayerID LAYER_LAWN_AND_SEED = 1;
 const LayerID LAYER_PROJECTILES = 2;
-const LayerID LAYER_PLANTS = 3;
-const LayerID LAYER_COOLDOWN_MASK = 4;
-const LayerID LAYER_UI = 5;
+const LayerID LAYER_ZOMBIE = 3;
+const LayerID LAYER_PLANTS = 4;
+const LayerID LAYER_COOLDOWN_MASK = 5;
 const LayerID LAYER_BACKGROUND = 6;
 
 const int MS_PER_FRAME = 33;

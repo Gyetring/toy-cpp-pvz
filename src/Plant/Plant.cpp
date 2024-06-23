@@ -7,8 +7,14 @@ Plant::Plant(ImageID img, int xGrid, int yGrid, int hp)
 
 TYPE_ID Plant::getType() const { return TID_PLANT; }
 
-SunFlower::SunFlower(int xGrid, int yGrid) 
-    : Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300),mTimeLeft(randInt(90,300)){}
-
+SunFlower::SunFlower(int xGrid, int yGrid,pGameWorld manager) 
+    : Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300),mTimeLeft(randInt(90,300)),
+    mManager(manager){}
 void SunFlower::OnClick(){}
-void SunFlower::Update(){}
+void SunFlower::Update(){
+    if (mTimeLeft > 0) mTimeLeft--;
+    else {
+        mManager->sunflowerNotifyMe(GetX(), GetY());
+        mTimeLeft += randInt(600, 750);
+    }
+}

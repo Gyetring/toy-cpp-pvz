@@ -2,6 +2,7 @@
 #define PLANT_HPP__
 
 #include "GameObject.hpp"
+#include "interactive.hpp"
 #include "utils.hpp"
 
 class Plant :public Entity {
@@ -12,10 +13,11 @@ public:
 
 class SunFlower : public Plant {
 private:
+    pGameWorld mManager;
     int mTimeLeft;
 
 public:
-    SunFlower(int xGrid, int yGrid);
+    SunFlower(int xGrid, int yGrid, pGameWorld manager);
     void OnClick() override;
     void Update() override;
 };

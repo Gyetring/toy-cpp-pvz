@@ -9,6 +9,7 @@
 class Interactive;
 class OneLawn;
 class Seed;
+class Sun;
 // 这个前向声明疑似不加不行，因为在Interactive中为了使用GameWorld::notifyMeClicked
 // 不得不在头文件中引入GameWorld.hpp，而这个GameWorld又要用到这几个类
 // 所以不得不前向声明
@@ -38,9 +39,13 @@ public:
 
     void notifyMeClicked(std::shared_ptr<Interactive>);
 
+    void sunflowerNotifyMe(int x, int y);
+
 private:
     std::list<std::shared_ptr<GameObject>> mObjects;
     std::shared_ptr<Interactive> mHand;
+    int mSunNum;
+    TextBase mSunShow;
 };
 
 #endif // !GAMEWORLD_HPP__

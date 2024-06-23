@@ -1,6 +1,6 @@
 #include "GameWorld.hpp"
 
-GameWorld::GameWorld(): mHand(nullptr) {}
+GameWorld::GameWorld(): mHand(nullptr),mSunNum(0), mSunShow(SUNSHOW_X,SUNSHOW_Y,"0") {}
 
 GameWorld::~GameWorld() {}
 
@@ -46,15 +46,31 @@ void GameWorld::notifyMeClicked(std::shared_ptr<Interactive> interactive) {
             }
             break;
         }
+        case TID_SUN:
+        {
+            auto sun = std::static_pointer_cast<Sun>(interactive);
+            std::cout << "clicked" << std::endl;
+            mObjects.remove_if([sun](const std::shared_ptr<GameObject>& object)
+                {return sun == object; });
+            mSunNum+=sun->gain;
+            mSunShow.SetText(std::to_string(mSunNum));
+            break;
+        }
         default:
             break;
         }
 }
 
+void GameWorld::sunflowerNotifyMe(int x, int y)
+{
+    mObjects.emplace_back(std::make_shared<SunFromFlower>(x, y, shared_from_this()));
+}
+
 void GameWorld::tryPlant(std::shared_ptr<OneLawn> lawn,std::shared_ptr<Seed> seed)
 {
     if (!lawn->isOccupied() && mHand->getType() == TID_SEED) {
-        mObjects.emplace_back(std::make_shared<SunFlower>(lawn->getXGrid(), lawn->getYGrid()));
+        mObjects.emplace_back(std::make_shared<SunFlower>(lawn->getXGrid(), lawn->getYGrid(),
+            shared_from_this()));
         lawn->setOccupied(true);
         mHand = nullptr;
     }
