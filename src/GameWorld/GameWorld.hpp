@@ -6,8 +6,17 @@
 
 #include "WorldBase.hpp"
 
+class Interactive;
+class OneLawn;
+class Seed;
+// 这个前向声明疑似不加不行，因为在Interactive中为了使用GameWorld::notifyMeClicked
+// 不得不在头文件中引入GameWorld.hpp，而这个GameWorld又要用到这几个类
+// 所以不得不前向声明
+
 #include "GameObject.hpp"
+#include "Sun.hpp"
 #include "Interactive.hpp"
+#include "Plant.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
@@ -25,16 +34,13 @@ public:
 
     void CleanUp() override;
 
-    void tryPlant(std::shared_ptr<OneLawn>,std::shared_ptr<Seed>);
+    void tryPlant(std::shared_ptr<OneLawn>, std::shared_ptr<Seed>);
 
     void notifyMeClicked(std::shared_ptr<Interactive>);
 
-
-
 private:
     std::list<std::shared_ptr<GameObject>> mObjects;
-    std::shared_ptr<Interactive> mHand=nullptr;
-
+    std::shared_ptr<Interactive> mHand;
 };
 
 #endif // !GAMEWORLD_HPP__

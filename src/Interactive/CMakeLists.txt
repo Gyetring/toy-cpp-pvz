@@ -11,6 +11,8 @@ target_link_libraries(
   GameObject
   Framework
   GameWorld
+  Plant
+  Sun
 )
 
 target_include_directories(
@@ -20,4 +22,6 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/Framework/
   ${CMAKE_SOURCE_DIR}/src/GameWorld/
   ${CMAKE_SOURCE_DIR}/src/GameObject/
+  ${CMAKE_SOURCE_DIR}/src/Plant/
+  ${CMAKE_SOURCE_DIR}/src/Sun/
 )

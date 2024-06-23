@@ -1,5 +1,3 @@
-#include "GameObject.hpp"
-#include "GameWorld.hpp"
 #include "Interactive.hpp"
 
 Interactive::Interactive(ImageID img, int x, int y, int width, int height, pGameWorld manager)
@@ -14,7 +12,9 @@ void Interactive::OnClick()
 OneLawn::OneLawn(int xGrid, int yGrid, pGameWorld manager) 
     : Interactive(IMGID_PEA, FIRST_ROW_CENTER + xGrid * LAWN_GRID_WIDTH,
     FIRST_COL_CENTER + yGrid * LAWN_GRID_HEIGHT, LAWN_GRID_WIDTH,
-    LAWN_GRID_HEIGHT, manager), mXGrid(xGrid), mYGrid(yGrid) {}
+    LAWN_GRID_HEIGHT, manager), mXGrid(xGrid), mYGrid(yGrid),mOccupied(false) {}
+
+void OneLawn::Update(){}
 
 int OneLawn::getXGrid()const { return mXGrid; }
 int OneLawn::getYGrid()const { return mYGrid; }

@@ -1,6 +1,6 @@
 #include "GameWorld.hpp"
 
-GameWorld::GameWorld() {}
+GameWorld::GameWorld(): mHand(nullptr) {}
 
 GameWorld::~GameWorld() {}
 
