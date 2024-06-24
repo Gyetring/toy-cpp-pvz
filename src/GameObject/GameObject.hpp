@@ -14,6 +14,7 @@ const TYPE_ID TID_PLANT = 2;
 const TYPE_ID TID_SEED = 3;
 const TYPE_ID TID_SUN = 4;
 const TYPE_ID TID_COOLDOWN = 5;
+const TYPE_ID TID_ZOMBIE = 6;
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {
@@ -39,11 +40,20 @@ public:
 };
 
 class Entity : public GameObject {
-private:
+protected:
     int mHP;
+    const int mWidth;
+    const int mHeight;
+    pGameWorld mManager;
+    friend GameWorld;
+    void updateLife();
+
 public:
-    Entity(const ImageID& imageID, const int& x, const int& y, const LayerID& layer,
-        const AnimID& animID, const int& hp);
+    Entity( ImageID imageID,  int x,  int y,  LayerID layer,
+         AnimID animID,  int hp,int width,int height,pGameWorld);
+    virtual bool askHit(std::shared_ptr<Entity> other, int hit)=0;
+    void OnClick() override;
+    virtual bool inMyDomain(std::shared_ptr<Entity> other);
 };
 
 #endif // !GAMEOBJECT_HPP__

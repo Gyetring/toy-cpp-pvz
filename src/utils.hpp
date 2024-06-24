@@ -64,6 +64,16 @@ const int SUNFLOWER_COST = 50;
 
 const int SUNFLOWER_SERIAL = 0;
 
+const int ZOMBIE_WIDTH = 25;
+const int ZOMBIE_HEIGHT = 50;
+const int PLANT_WIDTH = 100;
+const int PLANT_HEIGHT = 70;
+const int ZOMBIE_START_X = WINDOW_WIDTH + 25;
+const int ZOMBIE_PASS_X = -25;
+const int REGULAR_ZOMBIE_VELOCITY = 1;
+const int REGULAR_ZOMBIE_HIT = 2;
+const int REGULAR_ZOMBIE_HP = 190;
+
 using ImageID = int;
 
 const ImageID IMGID_NONE = -1;

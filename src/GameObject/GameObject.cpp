@@ -20,7 +20,21 @@ TYPE_ID BackGround::getType() const
 	return TID_BACKGROUND;
 }
 
-Entity::Entity(const ImageID& imageID, const int& x, const int& y,
-	const LayerID& layer, const AnimID& animID, const int& hp)
-	: GameObject(imageID, x, y, layer, 0, 0, animID), mHP(hp){}
+Entity::Entity( ImageID imageID,  int x,  int y,	 LayerID layer,
+	 AnimID animID,  int hp,int width,int height,pGameWorld manager)
+	: GameObject(imageID, x, y, layer, 0, 0, animID),
+	mHP(hp),mWidth(width),mHeight(height),mManager(manager){}
 
+void Entity::OnClick(){}
+void Entity::updateLife() { if (mHP <= 0) mLife = false; }
+
+bool Entity::inMyDomain(std::shared_ptr<Entity> other)
+{
+	int x = other->GetX();
+	int y = other->GetY();
+	int x0 = GetX();
+	int y0 = GetY();
+	int rx = mWidth / 2;
+	int ry = mHeight / 2;
+	return x >= x0 - rx && x <= x0 + rx && y >= y0 - rx && y <= y0 + rx;
+}

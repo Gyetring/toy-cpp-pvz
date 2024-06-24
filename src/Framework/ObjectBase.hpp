@@ -25,7 +25,6 @@ public:
   int GetWidth() const;
   int GetHeight() const;
 
-  void ChangeLayer(LayerID);
 
   void MoveTo(int x, int y);
   

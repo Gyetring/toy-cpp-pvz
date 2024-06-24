@@ -12,6 +12,7 @@ void GameWorld::Init()
         for(int j=0;j<GAME_ROWS;++j)
             mObjects.emplace_back(std::make_shared<OneLawn>(i,j,shared_from_this()));
     mObjects.emplace_back(std::make_shared<SunFlowerSeed>(shared_from_this()));
+    add(std::make_shared<RegularZombie>(3, shared_from_this()));
 }
 
 LevelStatus GameWorld::Update()
@@ -27,7 +28,12 @@ LevelStatus GameWorld::Update()
         mSkyTimer = randInt(180, 210);
     }
     for (auto &object : mObjects)
+    {
         object->Update();
+        if (object->getType() == TID_ZOMBIE && object->GetX() <= ZOMBIE_PASS_X)
+            return LevelStatus::LOSING;
+        
+    }
     auto toBeEreased = std::remove_if(mObjects.begin(), mObjects.end(),
         [](std::shared_ptr<GameObject> object) {return !object->lifeStatus(); });
     mObjects.erase(toBeEreased, mObjects.end());
@@ -36,12 +42,19 @@ LevelStatus GameWorld::Update()
 
 void GameWorld::CleanUp()
 {
+    mObjects.erase(mObjects.begin(), mObjects.end());
+    setSun(50);
 }
 
 int GameWorld::getSun()const{return mSunNum;}
 void GameWorld::setSun(int target){
     mSunNum = target;
     mSunShow.SetText(std::to_string(mSunNum));
+}
+
+const std::list<std::shared_ptr<GameObject>> &GameWorld::getObjects() const
+{
+    return mObjects;
 }
 
 
@@ -92,6 +105,16 @@ bool GameWorld::tryPlant(std::shared_ptr<OneLawn> lawn,std::shared_ptr<Plant> pl
         lawn->setOccupied(true);
         setSun(getSun() - plant->mCost);
         mHand = nullptr;
+        return true;
+    }
+    return false;
+}
+
+bool GameWorld::tryHit(std::shared_ptr<Entity> entity,int hit)
+{
+
+    if (entity) {
+        entity->mHP -= hit;
         return true;
     }
     return false;

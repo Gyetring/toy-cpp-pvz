@@ -2,7 +2,8 @@
 #include "GameManager.hpp"
 
 ObjectBase::ObjectBase(int imageID, int x, int y, LayerID layer, int width, int height, AnimID animID)
-  : m_imageID(imageID), m_x(x), m_y(y), m_layer(layer), m_width(width), m_height(height), m_animID(animID), m_currentFrame(0) {
+  : m_imageID(imageID), m_x(x), m_y(y), m_layer(layer), m_width(width), m_height(height),
+    m_animID(animID), m_currentFrame(0) {
   GetObjects(m_layer).insert(this);
 }
 
@@ -39,7 +40,6 @@ void ObjectBase::MoveTo(int x, int y) {
   m_y = y;
 }
 
-void ObjectBase::ChangeLayer(LayerID target) { m_layer = target;}
 
 void ObjectBase::ChangeImage(ImageID imageID) {
   m_imageID = imageID;

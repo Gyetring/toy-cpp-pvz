@@ -12,7 +12,8 @@ target_link_libraries(
   Framework
   GameWorld
   Plant
-  Sun
+  Zombie
+  Interactive
 )
 
 target_include_directories(
@@ -23,5 +24,6 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/GameWorld/
   ${CMAKE_SOURCE_DIR}/src/GameObject/
   ${CMAKE_SOURCE_DIR}/src/Plant/
-  ${CMAKE_SOURCE_DIR}/src/Sun/
+  ${CMAKE_SOURCE_DIR}/src/Zombie/
+  ${CMAKE_SOURCE_DIR}/src/Interactive/
 )

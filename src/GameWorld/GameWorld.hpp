@@ -17,9 +17,9 @@ class CoolDownMask;
 // 所以不得不前向声明
 
 #include "GameObject.hpp"
-#include "Sun.hpp"
 #include "Interactive.hpp"
 #include "Plant.hpp"
+#include "Zombie.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
@@ -40,7 +40,10 @@ public:
     int getSun() const;
     void setSun(int target);
 
+    const std::list<std::shared_ptr<GameObject>> &getObjects() const;
+
     bool tryPlant(std::shared_ptr<OneLawn>, std::shared_ptr<Plant>);
+    bool tryHit(std::shared_ptr<Entity> entity, int hit);
 
     void add(std::shared_ptr<GameObject>);
     void remove(std::shared_ptr<GameObject>);
