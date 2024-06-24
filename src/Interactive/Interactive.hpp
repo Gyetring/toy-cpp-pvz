@@ -29,8 +29,10 @@ public:
     int getXGrid()const;
     int getYGrid()const;
 
-    bool isOccupied() const;
     void setOccupied(bool);
+    bool isOccupied() const;
+
+    bool inMyDomain(std::shared_ptr<GameObject> other);
 
     TYPE_ID getType() const override;
 
@@ -68,6 +70,15 @@ public:
     PeaShooterSeed(pGameWorld manager);
     void Update() override;
     bool askPlant(std::shared_ptr<OneLawn>) override;
+};
+
+class Shovel : public Interactive {
+public:
+    Shovel(pGameWorld manager);
+    void OnClick()override;
+    void Update()override;
+    TYPE_ID getType()const override;
+    bool askRemove(std::shared_ptr<OneLawn>);
 };
 
 using Coordinate = std::pair<int, int>;

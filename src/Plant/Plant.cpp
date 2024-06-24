@@ -34,7 +34,7 @@ void PeaShooter::Update()
     if (mTimeLeft > 0) mTimeLeft--;
     else {
         mTimeLeft += randInt(40, 45);
-        std::cout << "shoot" << std::endl;
+        mManager->peaShooterNotifyMe(GetX(), GetY());
     }
 }
 

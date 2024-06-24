@@ -14,6 +14,7 @@ target_link_libraries(
   GameWorld
   Interactive
   Zombie
+  Projectile
 )
 
 target_include_directories(
@@ -26,4 +27,5 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/Interactive/
   ${CMAKE_SOURCE_DIR}/src/Plant/
   ${CMAKE_SOURCE_DIR}/src/Zombie/
+  ${CMAKE_SOURCE_DIR}/src/Projectile/
 )

@@ -20,6 +20,7 @@ class CoolDownMask;
 #include "Interactive.hpp"
 #include "Plant.hpp"
 #include "Zombie.hpp"
+#include "Projectile.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
@@ -43,6 +44,7 @@ public:
     const std::list<std::shared_ptr<GameObject>> &getObjects() const;
 
     bool tryPlant(std::shared_ptr<OneLawn>, std::shared_ptr<Plant>);
+    bool tryRemove(std::shared_ptr<OneLawn>);
     bool tryHit(std::shared_ptr<Entity> entity, int hit);
 
     void add(std::shared_ptr<GameObject>);
@@ -50,6 +52,7 @@ public:
 
     void notifyMeClicked(std::shared_ptr<Interactive>);
     void sunflowerNotifyMe(int x, int y);
+    void peaShooterNotifyMe(int x, int y);
 
 
 private:
@@ -58,6 +61,7 @@ private:
     int mSunNum;
     TextBase mSunShow;
     int mSkyTimer;
+    int mZombieTimer;
 };
 
 #endif // !GAMEWORLD_HPP__

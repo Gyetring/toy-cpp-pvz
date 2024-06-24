@@ -37,6 +37,8 @@ const int WINDOW_HEIGHT = 600;
 
 const int LAWN_GRID_WIDTH = 80;
 const int LAWN_GRID_HEIGHT = 100;
+const int SHOVEL_WIDTH = 70;
+const int SHOVEL_HEIGHT = 72;
 
 const int FIRST_ROW_CENTER = 75;
 const int FIRST_COL_CENTER = 75;
@@ -66,8 +68,11 @@ const int PEASHOOTER_SERIAL = 1;
 const int PEASHOOTER_COST = 100;
 const int PEASHOOTER_COOLDOWN = 360;
 
-const int ZOMBIE_WIDTH = 25;
-const int ZOMBIE_HEIGHT = 50;
+const int PEA_HIT = 50;
+const int PEA_VELOCITY = 10;
+
+const int ZOMBIE_WIDTH = 40;
+const int ZOMBIE_HEIGHT = 70;
 const int PLANT_WIDTH = 100;
 const int PLANT_HEIGHT = 70;
 const int ZOMBIE_START_X = WINDOW_WIDTH + 25;

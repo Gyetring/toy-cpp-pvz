@@ -41,6 +41,7 @@ add_subdirectory(src/GameWorld/)
 add_subdirectory(src/Interactive)
 add_subdirectory(src/Plant)
 add_subdirectory(src/Zombie)
+add_subdirectory(src/Projectile)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(

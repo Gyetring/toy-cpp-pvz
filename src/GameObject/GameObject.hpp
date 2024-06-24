@@ -15,6 +15,8 @@ const TYPE_ID TID_SEED = 3;
 const TYPE_ID TID_SUN = 4;
 const TYPE_ID TID_COOLDOWN = 5;
 const TYPE_ID TID_ZOMBIE = 6;
+const TYPE_ID TID_PROJECTILE = 7;
+const TYPE_ID TID_SHOVEL = 8;
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {

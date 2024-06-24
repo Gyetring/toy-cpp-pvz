@@ -11,7 +11,7 @@ void Interactive::OnClick()
 }
 
 OneLawn::OneLawn(int xGrid, int yGrid, pGameWorld manager)
-    : Interactive(IMGID_PEA, FIRST_ROW_CENTER + xGrid * LAWN_GRID_WIDTH,
+    : Interactive(IMGID_NONE, FIRST_ROW_CENTER + xGrid * LAWN_GRID_WIDTH,
         FIRST_COL_CENTER + yGrid * LAWN_GRID_HEIGHT,LAYER_LAWN_AND_SEED,
         LAWN_GRID_WIDTH,LAWN_GRID_HEIGHT,ANIMID_NO_ANIMATION, manager),
     mXGrid(xGrid), mYGrid(yGrid),mOccupied(false) {}
@@ -21,11 +21,21 @@ void OneLawn::Update(){}
 int OneLawn::getXGrid()const { return mXGrid; }
 int OneLawn::getYGrid()const { return mYGrid; }
 
-bool OneLawn::isOccupied()const { return mOccupied; }
+void OneLawn::setOccupied(bool set) { mOccupied = set; }
 
-void OneLawn::setOccupied(bool state) { mOccupied = state;}
+bool OneLawn::isOccupied()const { return mOccupied;}
 
 TYPE_ID OneLawn::getType() const{ return TID_LAWN; }
+
+bool OneLawn::inMyDomain(std::shared_ptr<GameObject> other) {
+    int x = other->GetX();
+    int y = other->GetY();
+    int x0 = GetX();
+    int y0 = GetY();
+    int rx = GetWidth() / 2;
+    int ry = GetHeight() / 2;
+    return x >= x0 - rx && x <= x0 + rx && y >= y0 - rx && y <= y0 + rx;
+}
 
 Seed::Seed(ImageID img, int serial, int cost,int coolDown,  pGameWorld manager)
     :Interactive(img,FIRST_SERIAL_X+serial*SERIAL_WIDTH,FIRST_SERIAL_Y,
@@ -110,4 +120,24 @@ Coordinate SunFromSky::orbitNextCoord()
     int y = -moveTick * SUN_FROM_SKY_VELOCITY;
     return { startPoint.first,y + startPoint.second };
 }
+
+Shovel::Shovel(pGameWorld manager)
+    :Interactive(IMGID_SHOVEL,600,564,LAYER_LAWN_AND_SEED,
+        SHOVEL_WIDTH,SHOVEL_HEIGHT,ANIMID_NO_ANIMATION,manager){}
+
+void Shovel::OnClick()
+{
+    if (mManager) mManager->notifyMeClicked(std::static_pointer_cast<Interactive>(shared_from_this()));
+}
+
+void Shovel::Update(){}
+
+TYPE_ID Shovel::getType() const
+{
+    return TID_SHOVEL;
+}
+bool Shovel::askRemove(std::shared_ptr<OneLawn> lawn) {
+    return mManager->tryRemove(lawn);
+}
+
 

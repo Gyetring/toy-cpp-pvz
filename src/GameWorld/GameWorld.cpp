@@ -1,7 +1,7 @@
 #include "GameWorld.hpp"
 
-GameWorld::GameWorld(): mHand(nullptr),mSunNum(100), mSunShow(SUNSHOW_X,SUNSHOW_Y,"100"),
-    mSkyTimer(randInt(180,210)){}
+GameWorld::GameWorld(): mHand(nullptr),mSunNum(1000), mSunShow(SUNSHOW_X,SUNSHOW_Y,"1000"),
+    mSkyTimer(randInt(180,210)),mZombieTimer(randInt(300,400)){}
 
 GameWorld::~GameWorld() {}
 
@@ -13,7 +13,7 @@ void GameWorld::Init()
             mObjects.emplace_back(std::make_shared<OneLawn>(i,j,shared_from_this()));
     mObjects.emplace_back(std::make_shared<SunFlowerSeed>(shared_from_this()));
     mObjects.emplace_back(std::make_shared<PeaShooterSeed>(shared_from_this()));
-    add(std::make_shared<RegularZombie>(3, shared_from_this()));
+    add(std::make_shared<Shovel>(shared_from_this()));
 }
 
 LevelStatus GameWorld::Update()
@@ -28,6 +28,15 @@ LevelStatus GameWorld::Update()
             randInt(50 + WINDOW_HEIGHT, 2 * WINDOW_HEIGHT - 50), shared_from_this()));
         mSkyTimer = randInt(180, 210);
     }
+    if (mZombieTimer >= 0)
+    {
+        mZombieTimer--;
+    }
+    else
+    {
+        add(std::make_shared<RegularZombie>(randInt(0, 4), shared_from_this()));
+        mZombieTimer = randInt(300, 400);
+    }
     for (auto &object : mObjects)
     {
         object->Update();
@@ -36,7 +45,9 @@ LevelStatus GameWorld::Update()
         
     }
     auto toBeEreased = std::remove_if(mObjects.begin(), mObjects.end(),
-        [](std::shared_ptr<GameObject> object) {return !object->lifeStatus(); });
+        [](std::shared_ptr<GameObject> object) {return
+        (!object->lifeStatus())||(object->GetX()<-WINDOW_WIDTH || object->GetX()>2*WINDOW_WIDTH)
+        ||object->GetY()<0||object->GetY()>2*WINDOW_HEIGHT; });
     mObjects.erase(toBeEreased, mObjects.end());
     return LevelStatus::ONGOING;
 }
@@ -48,6 +59,7 @@ void GameWorld::CleanUp()
 }
 
 int GameWorld::getSun()const{return mSunNum;}
+
 void GameWorld::setSun(int target){
     mSunNum = target;
     mSunShow.SetText(std::to_string(mSunNum));
@@ -73,13 +85,23 @@ void GameWorld::notifyMeClicked(std::shared_ptr<Interactive> interactive) {
         case TID_LAWN:
         {
             auto lawn = std::static_pointer_cast<OneLawn>(interactive);
-            if (mHand && mHand->getType() == TID_SEED)
+            if (mHand )
             {
-                auto seed = std::static_pointer_cast<Seed>(mHand);
-                if (seed->mCost <= mSunNum)
-                    if(seed->askPlant(lawn))
-                        add(std::make_shared<CoolDownMask>(
-                        seed->GetX(),seed->GetY(),seed->mCoolDown));
+                if(mHand->getType() == TID_SEED)
+                {
+                    auto seed = std::static_pointer_cast<Seed>(mHand);
+                    if (seed->mCost <= mSunNum)
+                        if (seed->askPlant(lawn))
+                            add(std::make_shared<CoolDownMask>(
+                                seed->GetX(), seed->GetY(), seed->mCoolDown));
+                }
+                else if (mHand->getType() == TID_SHOVEL && lawn->isOccupied()) {
+                    auto shovel = std::static_pointer_cast<Shovel>(mHand);
+                    shovel->askRemove(lawn);
+                }
+                else {
+                    mHand = nullptr;
+                }
             }
             break;
         }
@@ -87,6 +109,11 @@ void GameWorld::notifyMeClicked(std::shared_ptr<Interactive> interactive) {
         {
             remove(interactive);
             setSun(getSun() + SUN_GAIN);
+            break;
+        }
+        case TID_SHOVEL:
+        {
+            mHand = interactive;
             break;
         }
         default:
@@ -99,12 +126,33 @@ void GameWorld::sunflowerNotifyMe(int x, int y)
     mObjects.emplace_back(std::make_shared<SunFromFlower>(x, y, shared_from_this()));
 }
 
+void GameWorld::peaShooterNotifyMe(int x, int y)
+{
+    add(std::make_shared<Pea>(x, y, shared_from_this()));
+}
+
 bool GameWorld::tryPlant(std::shared_ptr<OneLawn> lawn,std::shared_ptr<Plant> plant)
 {
     if (!lawn->isOccupied() && mHand->getType() == TID_SEED) {
-        mObjects.emplace_back(plant);
         lawn->setOccupied(true);
+        mObjects.emplace_back(plant);
         setSun(getSun() - plant->mCost);
+        mHand = nullptr;
+        return true;
+    }
+    return false;
+}
+
+bool GameWorld::tryRemove(std::shared_ptr<OneLawn> lawn)
+{
+    if (lawn->isOccupied() && mHand->getType() == TID_SHOVEL) {
+        mObjects.erase(
+            std::remove_if(mObjects.begin(), mObjects.end(),
+                [&lawn](const std::shared_ptr<GameObject>& obj) {
+                    return lawn->inMyDomain(obj) && obj->getType() == TID_PLANT;
+                }),
+            mObjects.end());
+        lawn->setOccupied(false);
         mHand = nullptr;
         return true;
     }
