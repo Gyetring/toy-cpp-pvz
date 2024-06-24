@@ -1,6 +1,6 @@
 #include "GameWorld.hpp"
 
-GameWorld::GameWorld(): mHand(nullptr),mSunNum(50), mSunShow(SUNSHOW_X,SUNSHOW_Y,"50"),
+GameWorld::GameWorld(): mHand(nullptr),mSunNum(100), mSunShow(SUNSHOW_X,SUNSHOW_Y,"100"),
     mSkyTimer(randInt(180,210)){}
 
 GameWorld::~GameWorld() {}
@@ -12,6 +12,7 @@ void GameWorld::Init()
         for(int j=0;j<GAME_ROWS;++j)
             mObjects.emplace_back(std::make_shared<OneLawn>(i,j,shared_from_this()));
     mObjects.emplace_back(std::make_shared<SunFlowerSeed>(shared_from_this()));
+    mObjects.emplace_back(std::make_shared<PeaShooterSeed>(shared_from_this()));
     add(std::make_shared<RegularZombie>(3, shared_from_this()));
 }
 

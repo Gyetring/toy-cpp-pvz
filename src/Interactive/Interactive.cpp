@@ -45,6 +45,18 @@ bool SunFlowerSeed::askPlant(std::shared_ptr<OneLawn> lawn)
         (lawn->getXGrid(), lawn->getYGrid(), mManager));
 }
 
+PeaShooterSeed::PeaShooterSeed(pGameWorld manager) 
+    :Seed(IMGID_SEED_PEASHOOTER, PEASHOOTER_SERIAL, PEASHOOTER_COST, PEASHOOTER_COOLDOWN, manager) {}
+
+void PeaShooterSeed::Update(){}
+
+bool PeaShooterSeed::askPlant(std::shared_ptr<OneLawn> lawn)
+{
+    return mManager->tryPlant(lawn, std::make_shared<PeaShooter>
+        (lawn->getXGrid(), lawn->getYGrid(), mManager));
+}
+
+
 CoolDownMask::CoolDownMask(int x, int y, int time)
     :GameObject(IMGID_COOLDOWN_MASK, x, y, LAYER_COOLDOWN_MASK, SERIAL_WIDTH,
         SERIAL_HEIGHT, ANIMID_NO_ANIMATION),mTimeLeft(time) {}
@@ -98,3 +110,4 @@ Coordinate SunFromSky::orbitNextCoord()
     int y = -moveTick * SUN_FROM_SKY_VELOCITY;
     return { startPoint.first,y + startPoint.second };
 }
+

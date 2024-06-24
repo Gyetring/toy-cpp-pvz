@@ -63,6 +63,13 @@ public:
     bool askPlant(std::shared_ptr<OneLawn>) override;
 };
 
+class PeaShooterSeed :public Seed {
+public:
+    PeaShooterSeed(pGameWorld manager);
+    void Update() override;
+    bool askPlant(std::shared_ptr<OneLawn>) override;
+};
+
 using Coordinate = std::pair<int, int>;
 
 class Sun : public Interactive {

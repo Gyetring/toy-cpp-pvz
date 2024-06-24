@@ -58,11 +58,13 @@ const int SUN_FROM_SKY_VELOCITY = 5;
 const int SUN_FROM_SKY_TIME = 120;
 
 const int SUNFLOWER_COOLDOWN = 360;
-
 const int SUN_GAIN = 25;
 const int SUNFLOWER_COST = 50;
-
 const int SUNFLOWER_SERIAL = 0;
+
+const int PEASHOOTER_SERIAL = 1;
+const int PEASHOOTER_COST = 100;
+const int PEASHOOTER_COOLDOWN = 360;
 
 const int ZOMBIE_WIDTH = 25;
 const int ZOMBIE_HEIGHT = 50;

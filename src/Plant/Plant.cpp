@@ -25,9 +25,16 @@ void SunFlower::Update(){
 }
 
 PeaShooter::PeaShooter(int xGrid, int yGrid, pGameWorld manager)
-    :Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300, SUNFLOWER_COST, randInt(40, 45), manager)
-{}
+    :Plant(IMGID_PEASHOOTER, xGrid, yGrid, 300, PEASHOOTER_COST, randInt(40, 45), manager){}
+void PeaShooter::OnClick(){}
 
-void PeaShooter::OnClick()
+void PeaShooter::Update()
 {
+    updateLife();
+    if (mTimeLeft > 0) mTimeLeft--;
+    else {
+        mTimeLeft += randInt(40, 45);
+        std::cout << "shoot" << std::endl;
+    }
 }
+
