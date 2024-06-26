@@ -48,3 +48,26 @@ void Pea::Update()
 	MoveTo(GetX() + PEA_VELOCITY, GetY());
 }
 
+Explosion::Explosion(int x, int y, pGameWorld manager)
+	: Projectile(IMGID_EXPLOSION, x, y, 3 * LAWN_GRID_WIDTH, 3 * LAWN_GRID_HEIGHT, manager, CHERRYBOMB_HIT),
+	mTriggered(false), mTimeLeft(10) {}
+
+void Explosion::Update()
+{
+	if(!mTriggered)
+	{
+		auto& objects = mManager->getObjects();
+		for (const auto& object : objects) {
+			if (object->getType() == TID_ZOMBIE) {
+				auto potentialTarget = std::static_pointer_cast<Entity>(object);
+				if (inMyDomain(potentialTarget))
+					askHit(potentialTarget);
+			}
+		}
+		mTriggered = true;
+	}
+	else {
+		if (mTimeLeft < 0) mLife = false;
+		else mTimeLeft--;
+	}
+}

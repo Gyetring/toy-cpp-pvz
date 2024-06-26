@@ -30,4 +30,25 @@ public:
     void OnClick() override;
     void Update() override;
 };
+
+class WallNut :public Plant {
+private:
+    bool mCracked;
+
+public:
+    WallNut(int xGrid, int yGrid, pGameWorld manager);
+    void OnClick() override;
+    void Update() override;
+};
+
+
+class CherryBomb:public Plant {
+private:
+    bool mTriggered;
+
+public:
+    CherryBomb(int xGrid, int yGrid, pGameWorld manager);
+    void OnClick() override;
+    void Update() override;
+};
 #endif //! PLANT_HPP__

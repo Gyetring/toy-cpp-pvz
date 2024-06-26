@@ -27,4 +27,14 @@ public:
 	void Update() override;
 };
 
+class Explosion : public Projectile {
+private:
+	bool mTriggered;
+	int mTimeLeft;
+
+public:
+	Explosion(int x, int y, pGameWorld manager);
+	void Update() override;
+};
+
 #endif // !PROJECTILE_HPP__

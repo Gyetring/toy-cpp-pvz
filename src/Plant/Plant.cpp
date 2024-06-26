@@ -38,3 +38,31 @@ void PeaShooter::Update()
     }
 }
 
+WallNut::WallNut(int xGrid, int yGrid, pGameWorld manager)
+    :Plant(IMGID_WALLNUT,xGrid,yGrid,4000,WALLNUT_COST,NO_PROJECTILE,manager),mCracked(false){}
+
+void WallNut::OnClick(){}
+
+void WallNut::Update()
+{
+    updateLife();
+    if (!mCracked && mHP < WALLNUT_CRACK) {
+        ChangeImage(IMGID_WALLNUT_CRACKED);
+    }
+    
+}
+
+CherryBomb::CherryBomb(int xGrid, int yGrid, pGameWorld manager)
+    :Plant(IMGID_CHERRY_BOMB,xGrid,yGrid,10000,CHERRYBOMB_COST,CHERRYBOMB_DELAY,manager),mTriggered(false){}
+
+void CherryBomb::OnClick(){}
+
+void CherryBomb::Update() {
+    updateLife();
+    if (!mTriggered && mTimeLeft > 0) mTimeLeft--;
+    else {
+        mManager->cherryWallNotifyMe(GetX(), GetY());
+        mTriggered = true;
+        mHP = -1;
+    }
+}

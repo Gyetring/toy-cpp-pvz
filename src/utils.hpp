@@ -59,14 +59,25 @@ const int SUN_FROM_FLOWER_TIME = 10;
 const int SUN_FROM_SKY_VELOCITY = 5;
 const int SUN_FROM_SKY_TIME = 120;
 
-const int SUNFLOWER_COOLDOWN = 360;
+const int SUNFLOWER_COOLDOWN = 250;
 const int SUN_GAIN = 25;
 const int SUNFLOWER_COST = 50;
 const int SUNFLOWER_SERIAL = 0;
 
 const int PEASHOOTER_SERIAL = 1;
 const int PEASHOOTER_COST = 100;
-const int PEASHOOTER_COOLDOWN = 360;
+const int PEASHOOTER_COOLDOWN = 250;
+
+const int WALLNUT_COST = 50;
+const int WALLNUT_CRACK = 2000;
+const int WALLNUT_SERIAL = 2;
+const int WALLNUT_COOLDOWN = 500;
+
+const int CHERRYBOMB_COST = 150;
+const int CHERRYBOMB_SERIAL = 3;
+const int CHERRYBOMB_COOLDOWN = 500;
+const int CHERRYBOMB_DELAY = 10;
+const int CHERRYBOMB_HIT = 114514;
 
 const int PEA_HIT = 50;
 const int PEA_VELOCITY = 10;
@@ -80,6 +91,8 @@ const int ZOMBIE_PASS_X = -25;
 const int REGULAR_ZOMBIE_VELOCITY = 1;
 const int REGULAR_ZOMBIE_HIT = 2;
 const int REGULAR_ZOMBIE_HP = 190;
+
+const int NO_PROJECTILE = 0;
 
 using ImageID = int;
 

@@ -14,20 +14,25 @@ OneLawn::OneLawn(int xGrid, int yGrid, pGameWorld manager)
     : Interactive(IMGID_NONE, FIRST_ROW_CENTER + xGrid * LAWN_GRID_WIDTH,
         FIRST_COL_CENTER + yGrid * LAWN_GRID_HEIGHT,LAYER_LAWN_AND_SEED,
         LAWN_GRID_WIDTH,LAWN_GRID_HEIGHT,ANIMID_NO_ANIMATION, manager),
-    mXGrid(xGrid), mYGrid(yGrid),mOccupied(false) {}
+    mXGrid(xGrid), mYGrid(yGrid){}
 
 void OneLawn::Update(){}
 
 int OneLawn::getXGrid()const { return mXGrid; }
 int OneLawn::getYGrid()const { return mYGrid; }
 
-void OneLawn::setOccupied(bool set) { mOccupied = set; }
-
-bool OneLawn::isOccupied()const { return mOccupied;}
+bool OneLawn::isOccupied()const {
+    auto& objects = mManager->getObjects();
+    for (auto& object : objects) {
+        if (object->getType() == TID_PLANT && inMyDomain(object))
+            return true;
+    }
+    return false;
+}
 
 TYPE_ID OneLawn::getType() const{ return TID_LAWN; }
 
-bool OneLawn::inMyDomain(std::shared_ptr<GameObject> other) {
+bool OneLawn::inMyDomain(const std::shared_ptr<GameObject> other) const {
     int x = other->GetX();
     int y = other->GetY();
     int x0 = GetX();
@@ -140,4 +145,24 @@ bool Shovel::askRemove(std::shared_ptr<OneLawn> lawn) {
     return mManager->tryRemove(lawn);
 }
 
+WallNutSeed::WallNutSeed(pGameWorld manager)
+    :Seed(IMGID_SEED_WALLNUT, WALLNUT_SERIAL, WALLNUT_COST, WALLNUT_COOLDOWN, manager) {}
 
+void WallNutSeed::Update(){}
+
+bool WallNutSeed::askPlant(std::shared_ptr<OneLawn> lawn)
+{
+    return mManager->tryPlant(lawn, std::make_shared<WallNut>
+        (lawn->getXGrid(), lawn->getYGrid(), mManager));
+}
+
+CherryBombSeed::CherryBombSeed(pGameWorld manager)
+    :Seed(IMGID_SEED_CHERRY_BOMB,CHERRYBOMB_SERIAL,CHERRYBOMB_COST,CHERRYBOMB_COOLDOWN,manager){}
+
+void CherryBombSeed::Update(){}
+
+bool CherryBombSeed::askPlant(std::shared_ptr<OneLawn> lawn)
+{
+    return mManager->tryPlant(lawn, std::make_shared<CherryBomb>
+        (lawn->getXGrid(), lawn->getYGrid(), mManager));
+}

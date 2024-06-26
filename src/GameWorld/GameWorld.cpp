@@ -1,7 +1,7 @@
 #include "GameWorld.hpp"
 
-GameWorld::GameWorld(): mHand(nullptr),mSunNum(1000), mSunShow(SUNSHOW_X,SUNSHOW_Y,"1000"),
-    mSkyTimer(randInt(180,210)),mZombieTimer(randInt(300,400)){}
+GameWorld::GameWorld(): mHand(nullptr),mSunNum(50), mSunShow(SUNSHOW_X,SUNSHOW_Y,"50"),
+    mSkyTimer(randInt(180,210)),mZombieTimer(randInt(600,800)){}
 
 GameWorld::~GameWorld() {}
 
@@ -13,6 +13,8 @@ void GameWorld::Init()
             mObjects.emplace_back(std::make_shared<OneLawn>(i,j,shared_from_this()));
     mObjects.emplace_back(std::make_shared<SunFlowerSeed>(shared_from_this()));
     mObjects.emplace_back(std::make_shared<PeaShooterSeed>(shared_from_this()));
+    mObjects.emplace_back(std::make_shared<WallNutSeed>(shared_from_this()));
+    mObjects.emplace_back(std::make_shared<CherryBombSeed>(shared_from_this()));
     add(std::make_shared<Shovel>(shared_from_this()));
 }
 
@@ -72,7 +74,6 @@ const std::list<std::shared_ptr<GameObject>> &GameWorld::getObjects() const
 
 
 void GameWorld::notifyMeClicked(std::shared_ptr<Interactive> interactive) {
-
     // be careful that mHand may be nullptr
     if(interactive)
         switch (interactive->getType())
@@ -131,10 +132,14 @@ void GameWorld::peaShooterNotifyMe(int x, int y)
     add(std::make_shared<Pea>(x, y, shared_from_this()));
 }
 
+void GameWorld::cherryWallNotifyMe(int x, int y)
+{
+    add(std::make_shared<Explosion>(x, y, shared_from_this()));
+}
+
 bool GameWorld::tryPlant(std::shared_ptr<OneLawn> lawn,std::shared_ptr<Plant> plant)
 {
     if (!lawn->isOccupied() && mHand->getType() == TID_SEED) {
-        lawn->setOccupied(true);
         mObjects.emplace_back(plant);
         setSun(getSun() - plant->mCost);
         mHand = nullptr;
@@ -152,7 +157,6 @@ bool GameWorld::tryRemove(std::shared_ptr<OneLawn> lawn)
                     return lawn->inMyDomain(obj) && obj->getType() == TID_PLANT;
                 }),
             mObjects.end());
-        lawn->setOccupied(false);
         mHand = nullptr;
         return true;
     }

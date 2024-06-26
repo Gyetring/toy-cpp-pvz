@@ -20,7 +20,6 @@ class OneLawn : public Interactive {
 private:
     int mXGrid;
     int mYGrid;
-    bool mOccupied;
 
 public:
     OneLawn(int xGrid, int yGrid, pGameWorld manager);
@@ -29,10 +28,9 @@ public:
     int getXGrid()const;
     int getYGrid()const;
 
-    void setOccupied(bool);
     bool isOccupied() const;
 
-    bool inMyDomain(std::shared_ptr<GameObject> other);
+    bool inMyDomain(const std::shared_ptr<GameObject> other) const;
 
     TYPE_ID getType() const override;
 
@@ -68,6 +66,20 @@ public:
 class PeaShooterSeed :public Seed {
 public:
     PeaShooterSeed(pGameWorld manager);
+    void Update() override;
+    bool askPlant(std::shared_ptr<OneLawn>) override;
+};
+
+class WallNutSeed :public Seed {
+public:
+    WallNutSeed(pGameWorld manager);
+    void Update() override;
+    bool askPlant(std::shared_ptr<OneLawn>) override;
+};
+
+class CherryBombSeed :public Seed {
+public:
+    CherryBombSeed(pGameWorld manager);
     void Update() override;
     bool askPlant(std::shared_ptr<OneLawn>) override;
 };

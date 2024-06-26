@@ -53,6 +53,7 @@ public:
     void notifyMeClicked(std::shared_ptr<Interactive>);
     void sunflowerNotifyMe(int x, int y);
     void peaShooterNotifyMe(int x, int y);
+    void cherryWallNotifyMe(int x, int y);
 
 
 private:
