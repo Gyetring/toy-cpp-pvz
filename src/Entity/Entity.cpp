@@ -25,9 +25,9 @@ void Zombie::Update()
 	{
 		if (object->getType() == GameObjType::Plant) 
 		{
-			auto target = std::static_pointer_cast<Entity>(object);
-			if (target->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
+			if (object->inMyDomain(shared_from_this()))
 			{
+				auto target = std::static_pointer_cast<Entity>(object);
 				hit(target, mHit);
 				if(!mEating)
 				{

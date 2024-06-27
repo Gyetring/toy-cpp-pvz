@@ -3,66 +3,6 @@
 
 #include "GameObject.hpp"
 #include "GameWorld.hpp"
-<<<<<<< HEAD
-
-
-class Interactive : public GameObject {
-protected:
-    pGameWorld mManager;
-
-public:
-    Interactive(ImageID img, int x, int y,LayerID layer, int width, int height,AnimID animID, 
-        pGameWorld manager);
-    void OnClick() override;
-
-};
-
-class OneLawn : public Interactive {
-private:
-    int mXGrid;
-    int mYGrid;
-
-public:
-    OneLawn(int xGrid, int yGrid, pGameWorld manager);
-    void Update() override;
-
-    int getXGrid()const;
-    int getYGrid()const;
-
-    bool isOccupied() const;
-
-    bool inMyDomain(const std::shared_ptr<GameObject> other) const;
-
-    TYPE_ID getType() const override;
-
-};
-
-class CoolDownMask :public GameObject {
-private:
-    int mTimeLeft;
-
-public:
-    CoolDownMask(int x, int y, int time);
-    void OnClick() override;
-    void Update() override;
-    TYPE_ID getType() const override;
-};
-
-class Seed : public Interactive {
-public:
-    const int mCost;//trivial
-    const int mCoolDown;//trivial
-    Seed(ImageID img, int Serial, int cost, int coolDown, pGameWorld manager);
-    TYPE_ID getType() const override;
-    virtual bool askPlant(std::shared_ptr<OneLawn>) = 0;
-};
-
-class SunFlowerSeed : public Seed {
-public:
-    SunFlowerSeed(pGameWorld manager);
-    void Update() override;
-    bool askPlant(std::shared_ptr<OneLawn>) override;
-=======
 #include "Entity.hpp"
 
 class Plant;//!!!
@@ -131,87 +71,26 @@ public:
         :Seed(IMGID_SEED_SUNFLOWER, SUNFLOWER_SERIAL,
             SUNFLOWER_COST, SUNFLOWER_COOLDOWN, manager) {}
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
->>>>>>> refined
 };
 
 class PeaShooterSeed :public Seed {
 public:
-<<<<<<< HEAD
-    PeaShooterSeed(pGameWorld manager);
-    void Update() override;
-    bool askPlant(std::shared_ptr<OneLawn>) override;
-=======
     PeaShooterSeed(pGameWorld manager)
         :Seed(IMGID_SEED_PEASHOOTER, PEASHOOTER_SERIAL,
             PEASHOOTER_COST, PEASHOOTER_COOLDOWN, manager){}
 
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
->>>>>>> refined
 };
 
 class WallNutSeed :public Seed {
 public:
-<<<<<<< HEAD
-    WallNutSeed(pGameWorld manager);
-    void Update() override;
-    bool askPlant(std::shared_ptr<OneLawn>) override;
-=======
     WallNutSeed(pGameWorld manager)
         :Seed(IMGID_SEED_WALLNUT, WALLNUT_SERIAL, WALLNUT_COST, WALLNUT_COOLDOWN, manager) {}
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
->>>>>>> refined
 };
 
 class CherryBombSeed :public Seed {
 public:
-<<<<<<< HEAD
-    CherryBombSeed(pGameWorld manager);
-    void Update() override;
-    bool askPlant(std::shared_ptr<OneLawn>) override;
-};
-
-class Shovel : public Interactive {
-public:
-    Shovel(pGameWorld manager);
-    void OnClick()override;
-    void Update()override;
-    TYPE_ID getType()const override;
-    bool askRemove(std::shared_ptr<OneLawn>);
-};
-
-using Coordinate = std::pair<int, int>;
-
-class Sun : public Interactive {
-protected:
-    Coordinate startPoint;
-    int moveTick;
-    int mMoveDuration;
-
-public:
-    const int gain; //trivial
-    Sun(int xStart, int yStart,int moveDuration, pGameWorld manager);
-    TYPE_ID getType() const override;
-    virtual Coordinate orbitNextCoord();
-    void Update()override;
-};
-
-class SunFromFlower :public Sun {
-public:
-    SunFromFlower(int xStart, int yStart, pGameWorld manager);
-    Coordinate orbitNextCoord() override;
-};
-
-class SunFromSky :public Sun {
-public:
-    SunFromSky(int xStart, int yStart, pGameWorld manager);
-    Coordinate orbitNextCoord() override;
-};
-
-
-
-
-#endif // !INTERACTIVE_HPP__
-=======
     CherryBombSeed(pGameWorld manager)
         :Seed(IMGID_SEED_CHERRY_BOMB, CHERRYBOMB_SERIAL, CHERRYBOMB_COST, CHERRYBOMB_COOLDOWN, manager) {}
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
@@ -261,4 +140,3 @@ public:
 };
 
 #endif // !INTERACTIVE_HPP__
->>>>>>> refined

@@ -37,62 +37,11 @@ const int WINDOW_HEIGHT = 600;
 
 const int LAWN_GRID_WIDTH = 80;
 const int LAWN_GRID_HEIGHT = 100;
-const int SHOVEL_WIDTH = 70;
-const int SHOVEL_HEIGHT = 72;
 
 const int FIRST_ROW_CENTER = 75;
 const int FIRST_COL_CENTER = 75;
 const int GAME_ROWS = 5;
 const int GAME_COLS = 9;
-
-const int FIRST_SERIAL_X = 125;
-const int FIRST_SERIAL_Y = 555;
-const int SERIAL_WIDTH = 50;
-const int SERIAL_HEIGHT = 70;
-const int SUN_WIDTH = 80;
-const int SUN_HEIGHT = 80;
-const int SUNSHOW_X = 60;
-const int SUNSHOW_Y = 520;
-
-const int SUN_FROM_FLOWER_VELOCITY = 2;
-const int SUN_FROM_FLOWER_TIME = 10;
-const int SUN_FROM_SKY_VELOCITY = 5;
-const int SUN_FROM_SKY_TIME = 120;
-
-const int SUNFLOWER_COOLDOWN = 250;
-const int SUN_GAIN = 25;
-const int SUNFLOWER_COST = 50;
-const int SUNFLOWER_SERIAL = 0;
-
-const int PEASHOOTER_SERIAL = 1;
-const int PEASHOOTER_COST = 100;
-const int PEASHOOTER_COOLDOWN = 250;
-
-const int WALLNUT_COST = 50;
-const int WALLNUT_CRACK = 2000;
-const int WALLNUT_SERIAL = 2;
-const int WALLNUT_COOLDOWN = 500;
-
-const int CHERRYBOMB_COST = 150;
-const int CHERRYBOMB_SERIAL = 3;
-const int CHERRYBOMB_COOLDOWN = 500;
-const int CHERRYBOMB_DELAY = 10;
-const int CHERRYBOMB_HIT = 114514;
-
-const int PEA_HIT = 50;
-const int PEA_VELOCITY = 10;
-
-const int ZOMBIE_WIDTH = 40;
-const int ZOMBIE_HEIGHT = 70;
-const int PLANT_WIDTH = 100;
-const int PLANT_HEIGHT = 70;
-const int ZOMBIE_START_X = WINDOW_WIDTH + 25;
-const int ZOMBIE_PASS_X = -25;
-const int REGULAR_ZOMBIE_VELOCITY = 1;
-const int REGULAR_ZOMBIE_HIT = 2;
-const int REGULAR_ZOMBIE_HP = 190;
-
-const int NO_PROJECTILE = 0;
 
 using ImageID = int;
 
@@ -133,11 +82,7 @@ using LayerID = int;
 
 const LayerID LAYER_SUN = 0;
 const LayerID LAYER_COOLDOWN_MASK = 1;
-<<<<<<< HEAD
-const LayerID LAYER_LAWN_AND_SEED = 2;
-=======
 const LayerID LAYER_INTERACTIVE = 2;
->>>>>>> refined
 const LayerID LAYER_PROJECTILES = 3;
 const LayerID LAYER_ZOMBIE = 4;
 const LayerID LAYER_PLANTS = 5;

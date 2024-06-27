@@ -11,12 +11,7 @@ target_link_libraries(
   GameWorld
   GameObject
   Interactive
-<<<<<<< HEAD
-  Plant
-  Zombie
-=======
   Entity
->>>>>>> refined
   Projectile
 )
 
@@ -27,12 +22,6 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/Framework/
   ${CMAKE_SOURCE_DIR}/src/GameObject/
   ${CMAKE_SOURCE_DIR}/src/Interactive/
-<<<<<<< HEAD
-  ${CMAKE_SOURCE_DIR}/src/Plant/
-  ${CMAKE_SOURCE_DIR}/src/Zombie/
-  ${CMAKE_SOURCE_DIR}/src/GameWorld/
-=======
   ${CMAKE_SOURCE_DIR}/src/Entity/
->>>>>>> refined
   ${CMAKE_SOURCE_DIR}/src/Projectile/
 )
