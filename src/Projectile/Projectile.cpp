@@ -13,10 +13,9 @@ void Pea::Update()
 		auto& objects = mManager->GetObjects();
 		for (const auto& object : objects) {
 			if (object->getType() == GameObjType::Zombie) {
-				auto potentialTarget = std::static_pointer_cast<Entity>(object);
-				if (potentialTarget->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
-
+				if (object->inMyDomain(shared_from_this()))
 				{
+					auto potentialTarget = std::static_pointer_cast<Entity>(object);
 					hit(potentialTarget);
 					kill();
 				}
@@ -33,9 +32,11 @@ void Explosion::Update()
 		auto& objects = mManager->GetObjects();
 		for (const auto& object : objects) {
 			if (object->getType() == GameObjType::Zombie) {
-				auto potentialTarget = std::static_pointer_cast<Entity>(object);
-				if (inMyDomain(potentialTarget) && exists())
+				if (inMyDomain(object) && exists())
+				{
+					auto potentialTarget = std::static_pointer_cast<Entity>(object);
 					hit(potentialTarget);
+				}
 			}
 		}
 		mTriggered = true;
