@@ -12,6 +12,8 @@ void GameWorld::Init()
             AddObject(std::make_shared<Lawn>(i, j, shared_from_this()));
     AddObject(std::make_shared<SunflowerSeed>(shared_from_this()));
     AddObject(std::make_shared<PeaShooterSeed>(shared_from_this()));
+    AddObject(std::make_shared<WallNutSeed>(shared_from_this()));
+    AddObject(std::make_shared<CherryBombSeed>(shared_from_this()));
     AddObject(std::make_shared<Shovel>(shared_from_this()));
 }
 
@@ -61,15 +63,12 @@ void GameWorld::CleanUp()
 }
 
 void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
-{
-    std::cout << mHand << std::endl;
-    
+{   
     if (interactive) {
         switch (interactive->getType())
         {
         case TID_SEED:
         {
-            std::cout << "catched" << std::endl;
             mHand = interactive;
             break;
         }
@@ -78,7 +77,6 @@ void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
             auto lawn = std::static_pointer_cast<Lawn>(interactive);
             if (mHand)
             {
-                std::cout << "here1" << std::endl;
                 if (mHand->getType() == TID_SEED)
                 {
                     auto seed = std::static_pointer_cast<Seed>(mHand);
@@ -165,6 +163,11 @@ void GameWorld::generateSunflowerSun(int x, int y)
 void GameWorld::generatePea(int x, int y)
 {
     AddObject(std::make_shared<Pea>(x, y, shared_from_this()));
+}
+
+void GameWorld::generateExplosion(int x, int y)
+{
+    AddObject(std::make_shared<Explosion>(x, y, shared_from_this()));
 }
 
 void GameWorld::AddObject(std::shared_ptr<GameObject> obj)

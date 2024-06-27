@@ -50,6 +50,7 @@ public:
 
     void generateSunflowerSun(int x, int y);
     void generatePea(int x, int y);
+    void generateExplosion(int x, int y);
 
 
 private:

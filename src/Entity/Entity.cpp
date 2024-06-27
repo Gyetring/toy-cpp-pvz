@@ -54,3 +54,23 @@ void PeaShooter::Update()
 		mManager->generatePea(GetX(), GetY());
 	}
 }
+
+void WallNut::Update()
+{
+	updateExist();
+	if (!mCracked && mHP < WALLNUT_CRACK) {
+		ChangeImage(IMGID_WALLNUT_CRACKED);
+	}
+}
+
+void CherryBomb::Update()
+{
+	updateExist();
+	if (!mTriggered && mShootCounter > 0) mShootCounter--;
+	else {
+		mManager->generateExplosion(GetX(), GetY());
+		mTriggered = true;
+		mHP = -1;
+	}
+}
+

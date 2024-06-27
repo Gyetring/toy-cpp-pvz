@@ -26,6 +26,16 @@ std::shared_ptr<Plant> PeaShooterSeed::generate(std::shared_ptr<Lawn> lawn)
     return std::make_shared<PeaShooter>(lawn->getXGrid(), lawn->getYGrid(), mManager);
 }
 
+std::shared_ptr<Plant> WallNutSeed::generate(std::shared_ptr<Lawn> lawn)
+{
+    return std::make_shared<WallNut>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
+std::shared_ptr<Plant> CherryBombSeed::generate(std::shared_ptr<Lawn> lawn)
+{
+    return std::make_shared<CherryBomb>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
 Coordinate Sun::orbitNextCoord()
 {
     return mStartPoint;
@@ -56,4 +66,5 @@ void Shovel::OnClick()
 {
     if (mManager) mManager->NotifyMeClicked(std::static_pointer_cast<Interactive>(shared_from_this()));
 }
+
 

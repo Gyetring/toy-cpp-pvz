@@ -20,3 +20,23 @@ void Pea::Update()
 	}
 	MoveTo(GetX() + PEA_VELOCITY, GetY());
 }
+
+void Explosion::Update()
+{
+	if (!mTriggered)
+	{
+		auto& objects = mManager->GetObjects();
+		for (const auto& object : objects) {
+			if (object->getType() == TID_ZOMBIE) {
+				auto potentialTarget = std::static_pointer_cast<Entity>(object);
+				if (inMyDomain(potentialTarget))
+					hit(potentialTarget);
+			}
+		}
+		mTriggered = true;
+	}
+	else {
+		if (mTimeLeft < 0) kill();
+		else mTimeLeft--;
+	}
+}

@@ -22,6 +22,7 @@ public:
 
 const int PLANT_WIDTH = 100;
 const int PLANT_HEIGHT = 70;
+const int NO_SHOOT_DURATION = 0;
 
 class Plant :public Entity {
 protected:
@@ -54,6 +55,27 @@ public:
     void Update() override;
 };
 
+
+class WallNut :public Plant {
+private:
+    bool mCracked=false;
+
+public:
+    WallNut(int xGrid, int yGrid, pGameWorld manager)
+        :Plant(IMGID_WALLNUT, xGrid, yGrid, 4000,  NO_SHOOT_DURATION, manager){}
+    void Update() override;
+};
+
+class CherryBomb :public Plant {
+private:
+    bool mTriggered;
+
+public:
+    CherryBomb(int xGrid, int yGrid, pGameWorld manager)
+        :Plant(IMGID_CHERRY_BOMB, xGrid, yGrid, 10000, 10, manager), mTriggered(false) {}
+
+    void Update() override;
+};
 
 const int ZOMBIE_WIDTH = 40;
 const int ZOMBIE_HEIGHT = 70;

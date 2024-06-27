@@ -28,4 +28,19 @@ public:
 	void Update() override;
 };
 
+
+class Explosion : public Projectile {
+private:
+	bool mTriggered;
+	int mTimeLeft;
+
+public:
+	Explosion(int x, int y, pGameWorld manager)
+		: Projectile(IMGID_EXPLOSION, x, y,
+			3 * LAWN_GRID_WIDTH,
+			3 * LAWN_GRID_HEIGHT, manager, 114514),
+		mTriggered(false), mTimeLeft(10) {}
+	void Update() override;
+};
+
 #endif // !PROJECTILE_HPP__

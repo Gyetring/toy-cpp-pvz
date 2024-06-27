@@ -86,6 +86,31 @@ public:
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
 };
 
+const int WALLNUT_COST = 50;
+const int WALLNUT_CRACK = 2000;
+const int WALLNUT_SERIAL = 2;
+const int WALLNUT_COOLDOWN = 500;
+
+class WallNutSeed :public Seed {
+public:
+    WallNutSeed(pGameWorld manager)
+        :Seed(IMGID_SEED_WALLNUT, WALLNUT_SERIAL, WALLNUT_COST, WALLNUT_COOLDOWN, manager) {}
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+};
+
+const int CHERRYBOMB_COST = 150;
+const int CHERRYBOMB_SERIAL = 3;
+const int CHERRYBOMB_COOLDOWN = 500;
+const int CHERRYBOMB_DELAY = 10;
+const int CHERRYBOMB_HIT = 114514;
+
+class CherryBombSeed :public Seed {
+public:
+    CherryBombSeed(pGameWorld manager)
+        :Seed(IMGID_SEED_CHERRY_BOMB, CHERRYBOMB_SERIAL, CHERRYBOMB_COST, CHERRYBOMB_COOLDOWN, manager) {}
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+};
+
 
 const int SUN_WIDTH = 80;
 const int SUN_HEIGHT = 80;
