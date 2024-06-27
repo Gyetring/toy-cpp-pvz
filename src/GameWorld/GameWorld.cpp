@@ -25,9 +25,9 @@ LevelStatus GameWorld::Update()
     }
     else
     {
-        AddObject(std::make_shared<SkySun>(randInt(50, WINDOW_WIDTH - 50),
-            randInt(50 + WINDOW_HEIGHT, 2 * WINDOW_HEIGHT - 50), shared_from_this()));
-        mSkyTimer = randInt(180, 210);
+        AddObject(std::make_shared<SkySun>(randInt(SKYSUN_START_LEFT, SKYSUN_START_RIGHT),
+            randInt(SKYSUN_START_DOWN, SKYSUN_START_UP), shared_from_this()));
+        mSkyTimer = randInt(SKYTIMER_MIN, SKYTIMER_MAX);
     }
     if (mZombieTimer >= 0)
     {
@@ -36,12 +36,12 @@ LevelStatus GameWorld::Update()
     else
     {
         AddObject(std::make_shared<RegularZombie>(randInt(0, 4), shared_from_this()));
-        mZombieTimer = randInt(300, 400);
+        mZombieTimer = randInt(ZOMBIETIMER_MIN, ZOMBIETIMER_MAX);
     }
     for (auto& object : mObjects)
     {
         object->Update();
-        if (object->getType() == TID_ZOMBIE && object->GetX() <= ZOMBIE_PASS_X)
+        if (object->getType() == GameObjType::Zombie && object->GetX() <= ZOMBIE_PASS_X)
             return LevelStatus::LOSING;
 
     }
@@ -59,7 +59,7 @@ LevelStatus GameWorld::Update()
 void GameWorld::CleanUp()
 {
     mObjects.erase(mObjects.begin(), mObjects.end());
-    SetSun(50);
+    SetSun(INIT_SUN_NUM);
 }
 
 void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
@@ -67,30 +67,30 @@ void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
     if (interactive) {
         switch (interactive->getType())
         {
-        case TID_SEED:
+        case GameObjType::Seed:
         {
             mHand = interactive;
             break;
         }
-        case TID_LAWN:
+        case GameObjType::Lawn:
         {
             auto lawn = std::static_pointer_cast<Lawn>(interactive);
             if (mHand)
             {
-                if (mHand->getType() == TID_SEED)
+                if (mHand->getType() == GameObjType::Seed)
                 {
                     auto seed = std::static_pointer_cast<Seed>(mHand);
                     
-                    if (seed->mCost <= mSunNum&& !lawn->isOccupied())
+                    if (seed->getCost() <= mSunNum&& !lawn->isOccupied())
                     {
                             AddObject(seed->generate(lawn));
                             AddObject(std::make_shared<CoolDownMask>(seed->GetX(), seed->GetY(),
-                                seed->mCoolDown,shared_from_this()));
-                            SetSun(GetSun() - seed->mCost);
+                                seed->getCoolDown(), shared_from_this()));
+                            SetSun(GetSun() - seed->getCost());
                             
                     }
                 }
-                else if (mHand->getType() == TID_SHOVEL && lawn->isOccupied())
+                else if (mHand->getType() == GameObjType::Shovel && lawn->isOccupied())
                 {
                     ClearLawn(lawn);
                 }
@@ -98,13 +98,14 @@ void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
             }
             break;
         }
-        case TID_SUN:
+        case GameObjType::Sun:
         {
             RmObject(interactive);
             SetSun(GetSun() + SUN_GAIN);
+            mHand = nullptr;
             break;
         }
-        case TID_SHOVEL:
+        case GameObjType::Shovel:
         {
             mHand = interactive;
             break;
@@ -128,11 +129,11 @@ void GameWorld::RmObject(std::shared_ptr<GameObject> toBeRemoved)
 
 void GameWorld::ClearLawn(std::shared_ptr<Lawn> lawn)
 {
-    if (lawn->isOccupied() && mHand->getType() == TID_SHOVEL) {
+    if (lawn->isOccupied() && mHand->getType() == GameObjType::Shovel) {
         mObjects.erase(
             std::remove_if(mObjects.begin(), mObjects.end(),
                 [&lawn](const std::shared_ptr<GameObject>& obj) {
-                    return lawn->inMyDomain(obj) && obj->getType() == TID_PLANT;
+                    return lawn->inMyDomain(obj) && obj->getType() == GameObjType::Plant;
                 }),
             mObjects.end());
     }

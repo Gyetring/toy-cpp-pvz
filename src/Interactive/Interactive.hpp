@@ -5,7 +5,7 @@
 #include "GameWorld.hpp"
 #include "Entity.hpp"
 
-class Plant;//???
+class Plant;//!!!
 
 
 class Interactive : public GameObject {
@@ -34,17 +34,18 @@ public:
 
     bool isOccupied() const;
 
-    TYPE_ID getType() const override { return TID_LAWN; }
+    GameObjType getType() const override { return GameObjType::Lawn; }
 
 };
 
 
 
 class Seed : public Interactive {
-public:
-    const int mCost;//trivial
-    const int mCoolDown;//trivial
+protected:
+    const int mCost;
+    const int mCoolDown;
 
+public:
     Seed(ImageID img, int serial, int cost, int coolDown, pGameWorld manager)
         :Interactive(
             img,
@@ -54,28 +55,23 @@ public:
             SERIAL_WIDTH, SERIAL_HEIGHT,
             ANIMID_NO_ANIMATION, manager
         ),mCost(cost),mCoolDown(coolDown){}
-    TYPE_ID getType() const override { return TID_SEED; }
+    GameObjType getType() const override { return GameObjType::Seed; }
 
     void Update() override{}
 
-    virtual std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) = 0;
-};
+    int getCost() const { return mCost; }
+    int getCoolDown() const { return mCoolDown; }
 
-const int SUNFLOWER_COOLDOWN = 250;
-const int SUNFLOWER_COST = 50;
-const int SUNFLOWER_SERIAL = 0;
+    virtual std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const = 0;
+};
 
 class SunflowerSeed : public Seed {
 public:
     SunflowerSeed(pGameWorld manager)
         :Seed(IMGID_SEED_SUNFLOWER, SUNFLOWER_SERIAL,
             SUNFLOWER_COST, SUNFLOWER_COOLDOWN, manager) {}
-    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
 };
-
-const int PEASHOOTER_SERIAL = 1;
-const int PEASHOOTER_COST = 100;
-const int PEASHOOTER_COOLDOWN = 250;
 
 class PeaShooterSeed :public Seed {
 public:
@@ -83,88 +79,64 @@ public:
         :Seed(IMGID_SEED_PEASHOOTER, PEASHOOTER_SERIAL,
             PEASHOOTER_COST, PEASHOOTER_COOLDOWN, manager){}
 
-    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
 };
-
-const int WALLNUT_COST = 50;
-const int WALLNUT_CRACK = 2000;
-const int WALLNUT_SERIAL = 2;
-const int WALLNUT_COOLDOWN = 500;
 
 class WallNutSeed :public Seed {
 public:
     WallNutSeed(pGameWorld manager)
         :Seed(IMGID_SEED_WALLNUT, WALLNUT_SERIAL, WALLNUT_COST, WALLNUT_COOLDOWN, manager) {}
-    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
 };
-
-const int CHERRYBOMB_COST = 150;
-const int CHERRYBOMB_SERIAL = 3;
-const int CHERRYBOMB_COOLDOWN = 500;
-const int CHERRYBOMB_DELAY = 10;
-const int CHERRYBOMB_HIT = 114514;
 
 class CherryBombSeed :public Seed {
 public:
     CherryBombSeed(pGameWorld manager)
         :Seed(IMGID_SEED_CHERRY_BOMB, CHERRYBOMB_SERIAL, CHERRYBOMB_COST, CHERRYBOMB_COOLDOWN, manager) {}
-    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) const override;
 };
 
-
-const int SUN_WIDTH = 80;
-const int SUN_HEIGHT = 80;
-const int SUN_GAIN = 25;
 
 class Sun : public Interactive {
 protected:
     Coordinate mStartPoint;
     int mMoveTick;
     int mMoveDuration;
+    const int gain;
 
 public:
-    const int gain; //trivial
     Sun(int xStart, int yStart, int moveDuration, pGameWorld manager)
         :Interactive(IMGID_SUN, xStart, yStart, LAYER_SUN,
             SUN_WIDTH, SUN_HEIGHT, ANIMID_IDLE_ANIM, manager),
         gain(SUN_GAIN), mStartPoint(xStart, yStart), mMoveTick(0), mMoveDuration(moveDuration){}
-    TYPE_ID getType() const override { return TID_SUN; }
-    virtual Coordinate orbitNextCoord();
+    GameObjType getType() const override { return GameObjType::Sun; }
+    virtual Coordinate orbitNextCoord() const;
     void Update()override;
 };
 
-const int SHOVEL_WIDTH = 70;
-const int SHOVEL_HEIGHT = 72;
 
 class Shovel : public Interactive {
 public:
     Shovel(pGameWorld manager)
-        :Interactive(IMGID_SHOVEL, 600, 564, LAYER_INTERACTIVE,
+        :Interactive(IMGID_SHOVEL,SHOVEL_X,SHOVEL_Y,LAYER_INTERACTIVE,
             SHOVEL_WIDTH, SHOVEL_HEIGHT, ANIMID_NO_ANIMATION, manager) {}
     void OnClick()override;
     void Update()override{}
-    TYPE_ID getType()const override { return TID_SHOVEL; }
+    GameObjType getType()const override { return GameObjType::Shovel; }
 };
-
-
-const int SUN_FROM_FLOWER_TIME = 10;
-const int SUN_FROM_FLOWER_VELOCITY = 2;
 
 class SunflowerSun :public Sun {
 public:
     SunflowerSun(int xStart, int yStart, pGameWorld manager)
         :Sun(xStart, yStart, SUN_FROM_FLOWER_TIME, manager) {}
-    Coordinate orbitNextCoord() override;
+    Coordinate orbitNextCoord() const override;
 };
-
-const int SUN_FROM_SKY_VELOCITY = 5;
-const int SUN_FROM_SKY_TIME = 120;
 
 class SkySun :public Sun {
 public:
     SkySun(int xStart, int yStart, pGameWorld manager)
         :Sun(xStart, yStart, SUN_FROM_SKY_TIME, manager){}
-    Coordinate orbitNextCoord() override;
+    Coordinate orbitNextCoord() const override;
 };
 
 #endif // !INTERACTIVE_HPP__

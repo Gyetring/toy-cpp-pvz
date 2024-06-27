@@ -3,17 +3,13 @@
 
 #include "GameObject.hpp"
 
-
-const int BACKGROUND_WIDTH=0;
-const int BACKGROUND_HEIGHT=0;
-
 class Background :public GameObject {
 public:
 	Background(pGameWorld manager) : GameObject(IMGID_BACKGROUND, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, LAYER_BACKGROUND,
 		BACKGROUND_WIDTH, BACKGROUND_HEIGHT, ANIMID_NO_ANIMATION, manager){}
 	void OnClick() override{}
 	void Update() override{}
-	TYPE_ID getType() const override { return TID_BACKGROUND; }
+	GameObjType getType() const override { return GameObjType::Background; }
 
 };
 
@@ -28,7 +24,7 @@ public:
 			SERIAL_HEIGHT, ANIMID_NO_ANIMATION,manager), mTimeLeft(time) {}
 	void OnClick() override{}
 	void Update() override;
-	TYPE_ID getType() const override { return TID_COOLDOWN; }
+	GameObjType getType() const override { return GameObjType::CoolDown; }
 };
 
 #endif // !BACKGROUND_HPP__

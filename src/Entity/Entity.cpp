@@ -6,12 +6,13 @@ void Sunflower::Update()
     if (mShootCounter > 0) mShootCounter--;
     else {
         mManager->generateSunflowerSun(GetX(), GetY());
-        mShootCounter += randInt(600, 750);
+        mShootCounter += randInt(SUNFLOWER_SHOOTDURATION_MIN,
+			SUNFLOWER_SHOOTDURATION_MAX);
     }
 }
 
 
-void Zombie::hit(std::shared_ptr<Entity> other, int hit)
+void Zombie::hit(std::shared_ptr<Entity> other, int hit) const
 {
     mManager->MinusHP(other, hit);
 }
@@ -22,7 +23,7 @@ void Zombie::Update()
 	auto& objects = mManager->GetObjects();
 	for (const auto& object : objects) 
 	{
-		if (object->getType() == TID_PLANT) 
+		if (object->getType() == GameObjType::Plant) 
 		{
 			auto target = std::static_pointer_cast<Entity>(object);
 			if (target->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
@@ -50,7 +51,8 @@ void PeaShooter::Update()
 	updateExist();
 	if (mShootCounter > 0) mShootCounter--;
 	else {
-		mShootCounter += randInt(40, 45);
+		mShootCounter += randInt(PEASHOOTER_SHOOTDURATION_MIN,
+			PEASHOOTER_SHOOTDURATION_MAX);
 		mManager->generatePea(GetX(), GetY());
 	}
 }

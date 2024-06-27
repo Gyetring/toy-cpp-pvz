@@ -10,33 +10,33 @@ bool Lawn::isOccupied() const
 {
     auto& objects = mManager->GetObjects();
     for (auto& object : objects) {
-        if (object->getType() == TID_PLANT && inMyDomain(object))
+        if (object->getType() == GameObjType::Plant && inMyDomain(object))
             return true;
     }
     return false;
 }
 
-std::shared_ptr<Plant> SunflowerSeed::generate(std::shared_ptr<Lawn> lawn)
+std::shared_ptr<Plant> SunflowerSeed::generate(std::shared_ptr<Lawn> lawn)const
 {
     return std::make_shared<Sunflower>(lawn->getXGrid(),lawn->getYGrid(),mManager);
 }
 
-std::shared_ptr<Plant> PeaShooterSeed::generate(std::shared_ptr<Lawn> lawn)
+std::shared_ptr<Plant> PeaShooterSeed::generate(std::shared_ptr<Lawn> lawn)const
 {
     return std::make_shared<PeaShooter>(lawn->getXGrid(), lawn->getYGrid(), mManager);
 }
 
-std::shared_ptr<Plant> WallNutSeed::generate(std::shared_ptr<Lawn> lawn)
+std::shared_ptr<Plant> WallNutSeed::generate(std::shared_ptr<Lawn> lawn)const
 {
     return std::make_shared<WallNut>(lawn->getXGrid(), lawn->getYGrid(), mManager);
 }
 
-std::shared_ptr<Plant> CherryBombSeed::generate(std::shared_ptr<Lawn> lawn)
+std::shared_ptr<Plant> CherryBombSeed::generate(std::shared_ptr<Lawn> lawn)const
 {
     return std::make_shared<CherryBomb>(lawn->getXGrid(), lawn->getYGrid(), mManager);
 }
 
-Coordinate Sun::orbitNextCoord()
+Coordinate Sun::orbitNextCoord() const
 {
     return mStartPoint;
 }
@@ -50,13 +50,13 @@ void Sun::Update()
     }
 }
 
-Coordinate SunflowerSun::orbitNextCoord()
+Coordinate SunflowerSun::orbitNextCoord() const
 {
     int x = -mMoveTick * SUN_FROM_FLOWER_VELOCITY;
     return { x + mStartPoint.first, -x * x / 4 - 5 * x + mStartPoint.second };
 }
 
-Coordinate SkySun::orbitNextCoord()
+Coordinate SkySun::orbitNextCoord() const
 {
     int y = -mMoveTick * SUN_FROM_SKY_VELOCITY;
     return { mStartPoint.first,y + mStartPoint.second };

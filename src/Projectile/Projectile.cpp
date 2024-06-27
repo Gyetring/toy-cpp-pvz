@@ -1,24 +1,29 @@
 #include "Projectile.hpp"
 
-void Projectile::hit(std::shared_ptr<Entity> target)
+void Projectile::hit(std::shared_ptr<Entity> target) const
 {
 	mManager->MinusHP(target, mHit);
 }
 
 void Pea::Update()
 {
-	auto& objects = mManager->GetObjects();
-	for (const auto& object : objects) {
-		if (object->getType() == TID_ZOMBIE) {
-			auto potentialTarget = std::static_pointer_cast<Entity>(object);
-			if (potentialTarget->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
-			{
-				hit(potentialTarget);
-				kill();
+	//notice that exists() is necessary because kill() will not make it deleted right away.
+	if(exists())
+	{
+		auto& objects = mManager->GetObjects();
+		for (const auto& object : objects) {
+			if (object->getType() == GameObjType::Zombie) {
+				auto potentialTarget = std::static_pointer_cast<Entity>(object);
+				if (potentialTarget->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
+
+				{
+					hit(potentialTarget);
+					kill();
+				}
 			}
 		}
+		MoveTo(GetX() + PEA_VELOCITY, GetY());
 	}
-	MoveTo(GetX() + PEA_VELOCITY, GetY());
 }
 
 void Explosion::Update()
@@ -27,9 +32,9 @@ void Explosion::Update()
 	{
 		auto& objects = mManager->GetObjects();
 		for (const auto& object : objects) {
-			if (object->getType() == TID_ZOMBIE) {
+			if (object->getType() == GameObjType::Zombie) {
 				auto potentialTarget = std::static_pointer_cast<Entity>(object);
-				if (inMyDomain(potentialTarget))
+				if (inMyDomain(potentialTarget) && exists())
 					hit(potentialTarget);
 			}
 		}

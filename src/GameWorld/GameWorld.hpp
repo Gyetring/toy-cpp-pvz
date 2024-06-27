@@ -21,8 +21,6 @@ using Coordinate = std::pair<int, int>;
 #include "TextBase.hpp"
 #include "utils.hpp"
 
-const int SUNSHOW_X = 60;
-const int SUNSHOW_Y = 520;
 
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
@@ -56,10 +54,10 @@ public:
 private:
     std::list<std::shared_ptr<GameObject>> mObjects;
     std::shared_ptr<Interactive> mHand=nullptr;
-    int mSunNum = 50;
-    TextBase mSunShow{ SUNSHOW_X,SUNSHOW_Y,"50" };
-    int mSkyTimer = randInt(180, 210);
-    int mZombieTimer = randInt(600, 800);
+    int mSunNum = INIT_SUN_NUM;
+    TextBase mSunShow{ SUNSHOW_X,SUNSHOW_Y,INIT_SUN_STR };
+    int mSkyTimer = randInt(SKYTIMER_INIT_MIN, SKYTIMER_INIT_MAX);
+    int mZombieTimer = randInt(ZOMBIETIMER_INIT_MIN, ZOMBIETIMER_INIT_MAX);
 
     void AddObject(std::shared_ptr<GameObject>);
 };

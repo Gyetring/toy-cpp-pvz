@@ -20,9 +20,7 @@ public:
     int getHP() const { return mHP; }
 };
 
-const int PLANT_WIDTH = 100;
-const int PLANT_HEIGHT = 70;
-const int NO_SHOOT_DURATION = 0;
+
 
 class Plant :public Entity {
 protected:
@@ -35,23 +33,23 @@ public:
             FIRST_COL_CENTER + yGrid * LAWN_GRID_HEIGHT, 
             LAYER_PLANTS, ANIMID_IDLE_ANIM,
             hp, PLANT_WIDTH, PLANT_HEIGHT, manager),mShootCounter(shootDuration){}
-    TYPE_ID getType() const override { return TID_PLANT; }
+    GameObjType getType() const override { return GameObjType::Plant; }
 
 };
-
-
 
 class Sunflower : public Plant {
 public:
     Sunflower(int xGrid, int yGrid, pGameWorld manager)
-        :Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300, randInt(90, 300), manager){}
+        :Plant(IMGID_SUNFLOWER, xGrid, yGrid, SUNFLOWER_HP,
+            randInt(SUNFLOWER_SHOOTDURATION_INIT_MIN, SUNFLOWER_SHOOTDURATION_INIT_MAX), manager){}
     void Update() override;
 };
 
 class PeaShooter :public Plant {
 public:
     PeaShooter(int xGrid, int yGrid, pGameWorld manager)
-        :Plant(IMGID_PEASHOOTER, xGrid, yGrid, 300, randInt(40, 45), manager) {}
+        :Plant(IMGID_PEASHOOTER, xGrid, yGrid, PEASHOOTER_HP,
+            randInt(PEASHOOTER_SHOOTDURATION_MIN, PEASHOOTER_SHOOTDURATION_MAX), manager) {}
     void Update() override;
 };
 
@@ -62,7 +60,7 @@ private:
 
 public:
     WallNut(int xGrid, int yGrid, pGameWorld manager)
-        :Plant(IMGID_WALLNUT, xGrid, yGrid, 4000,  NO_SHOOT_DURATION, manager){}
+        :Plant(IMGID_WALLNUT, xGrid, yGrid, WALLNUT_HP,  NO_SHOOT_DURATION, manager){}
     void Update() override;
 };
 
@@ -72,15 +70,12 @@ private:
 
 public:
     CherryBomb(int xGrid, int yGrid, pGameWorld manager)
-        :Plant(IMGID_CHERRY_BOMB, xGrid, yGrid, 10000, 10, manager), mTriggered(false) {}
-
+        :Plant(IMGID_CHERRY_BOMB, xGrid, yGrid, CHERRYBOMB_HP, CHERRYBOMB_DELAY, manager),
+        mTriggered(false) {}
     void Update() override;
 };
 
-const int ZOMBIE_WIDTH = 40;
-const int ZOMBIE_HEIGHT = 70;
-const int ZOMBIE_START_X = WINDOW_WIDTH + 25;
-const int ZOMBIE_PASS_X = -25;
+
 
 class Zombie : public Entity {
 protected:
@@ -93,14 +88,10 @@ public:
         :  Entity(img, ZOMBIE_START_X, FIRST_ROW_CENTER + row * LAWN_GRID_HEIGHT,
             LAYER_ZOMBIE, ANIMID_WALK_ANIM, hp, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, manager),
         mVelocity(velocity), mHit(hit), mEating(false) {}
-    void hit(std::shared_ptr<Entity> other, int hit);
+    void hit(std::shared_ptr<Entity> other, int hit) const;
     void Update() override;
-    TYPE_ID getType()const override { return TID_ZOMBIE; }
+    GameObjType getType()const override { return GameObjType::Zombie; }
 };
-
-const int REGULAR_ZOMBIE_VELOCITY = 1;
-const int REGULAR_ZOMBIE_HIT = 2;
-const int REGULAR_ZOMBIE_HP = 190;
 
 class RegularZombie :public Zombie {
 public:

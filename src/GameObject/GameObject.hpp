@@ -3,20 +3,23 @@
 
 #include <memory>
 #include "ObjectBase.hpp"
+#include "utils.hpp"
 
 class GameWorld;
 using pGameWorld = std::shared_ptr<GameWorld>;
 
-using TYPE_ID = int;
-const TYPE_ID TID_BACKGROUND = 0;
-const TYPE_ID TID_LAWN = 1;
-const TYPE_ID TID_PLANT = 2;
-const TYPE_ID TID_SEED = 3;
-const TYPE_ID TID_SUN = 4;
-const TYPE_ID TID_COOLDOWN = 5;
-const TYPE_ID TID_ZOMBIE = 6;
-const TYPE_ID TID_PROJECTILE = 7;
-const TYPE_ID TID_SHOVEL = 8;
+enum class GameObjType
+{
+    Background,
+    Lawn,
+    Plant,
+    Seed,
+    Sun,
+    CoolDown,
+    Zombie,
+    Projectile,
+    Shovel
+};
 
 
 
@@ -24,7 +27,7 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
 {
 public:
     using std::enable_shared_from_this<GameObject>::shared_from_this;
-    virtual TYPE_ID getType() const = 0;
+    virtual GameObjType getType() const = 0;
     void kill();
     bool exists() const;
     bool inMyDomain(const std::shared_ptr<GameObject> other) const;
