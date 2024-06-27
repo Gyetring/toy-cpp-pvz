@@ -43,6 +43,11 @@ const int FIRST_COL_CENTER = 75;
 const int GAME_ROWS = 5;
 const int GAME_COLS = 9;
 
+const int FIRST_SERIAL_X = 125;
+const int FIRST_SERIAL_Y = 555;
+const int SERIAL_WIDTH = 50;
+const int SERIAL_HEIGHT = 70;
+
 using ImageID = int;
 
 const ImageID IMGID_NONE = -1;
@@ -81,11 +86,11 @@ const int MAX_LAYERS = 7;
 using LayerID = int;
 
 const LayerID LAYER_SUN = 0;
-const LayerID LAYER_ZOMBIES = 1;
-const LayerID LAYER_PROJECTILES = 2;
-const LayerID LAYER_PLANTS = 3;
-const LayerID LAYER_COOLDOWN_MASK = 4;
-const LayerID LAYER_UI = 5;
+const LayerID LAYER_COOLDOWN_MASK = 1;
+const LayerID LAYER_INTERACTIVE = 2;
+const LayerID LAYER_PROJECTILES = 3;
+const LayerID LAYER_ZOMBIE = 4;
+const LayerID LAYER_PLANTS = 5;
 const LayerID LAYER_BACKGROUND = 6;
 
 const int MS_PER_FRAME = 33;

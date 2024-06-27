@@ -6,10 +6,20 @@
 
 #include "WorldBase.hpp"
 
+class Interactive;
+
+using Coordinate = std::pair<int, int>;
+
 #include "GameObject.hpp"
+#include "Background.hpp"
+#include "Interactive.hpp"
+#include "Entity.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
+
+const int SUNSHOW_X = 60;
+const int SUNSHOW_Y = 520;
 
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
@@ -24,8 +34,26 @@ public:
 
     void CleanUp() override;
 
+    void NotifyMeClicked(std::shared_ptr<Interactive>);
+
+    const std::list<std::shared_ptr<GameObject>>& GetObjects() const;
+    void RmObject(std::shared_ptr<GameObject> toBeRemoved);
+
+    int GetSun()const;
+    void SetSun(int target);
+
+    void generateSunflowerSun(int x, int y);
+
 private:
-    std::list<std::shared_ptr<GameObject>> objects;
+    std::list<std::shared_ptr<GameObject>> mObjects;
+    std::shared_ptr<Interactive> mHand=nullptr;
+    int mSunNum = 50;
+    TextBase mSunShow{ SUNSHOW_X,SUNSHOW_Y,"50" };
+    int mSkyTimer = randInt(180, 210);
+    int mZombieTimer = randInt(600, 800);
+
+
+    void AddObject(std::shared_ptr<GameObject>);
 };
 
 #endif // !GAMEWORLD_HPP__
