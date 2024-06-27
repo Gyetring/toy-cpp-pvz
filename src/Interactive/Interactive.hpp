@@ -108,6 +108,19 @@ public:
     void Update()override;
 };
 
+const int SHOVEL_WIDTH = 70;
+const int SHOVEL_HEIGHT = 72;
+
+class Shovel : public Interactive {
+public:
+    Shovel(pGameWorld manager)
+        :Interactive(IMGID_SHOVEL, 600, 564, LAYER_INTERACTIVE,
+            SHOVEL_WIDTH, SHOVEL_HEIGHT, ANIMID_NO_ANIMATION, manager) {}
+    void OnClick()override;
+    void Update()override{}
+    TYPE_ID getType()const override { return TID_SHOVEL; }
+};
+
 
 const int SUN_FROM_FLOWER_TIME = 10;
 const int SUN_FROM_FLOWER_VELOCITY = 2;

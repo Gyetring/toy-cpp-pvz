@@ -8,6 +8,7 @@
 
 class Interactive;
 class Entity;
+class Lawn;
 
 using Coordinate = std::pair<int, int>;
 
@@ -40,6 +41,7 @@ public:
 
     const std::list<std::shared_ptr<GameObject>>& GetObjects() const;
     void RmObject(std::shared_ptr<GameObject> toBeRemoved);
+    void ClearLawn(std::shared_ptr<Lawn> lawn);
 
     void MinusHP(std::shared_ptr<Entity> target,int hit);
 

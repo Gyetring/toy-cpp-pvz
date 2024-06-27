@@ -12,8 +12,7 @@ void GameWorld::Init()
             AddObject(std::make_shared<Lawn>(i, j, shared_from_this()));
     AddObject(std::make_shared<SunflowerSeed>(shared_from_this()));
     AddObject(std::make_shared<PeaShooterSeed>(shared_from_this()));
-
-
+    AddObject(std::make_shared<Shovel>(shared_from_this()));
 }
 
 LevelStatus GameWorld::Update()
@@ -90,9 +89,14 @@ void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
                             AddObject(std::make_shared<CoolDownMask>(seed->GetX(), seed->GetY(),
                                 seed->mCoolDown,shared_from_this()));
                             SetSun(GetSun() - seed->mCost);
-                            mHand = nullptr;
+                            
                     }
                 }
+                else if (mHand->getType() == TID_SHOVEL && lawn->isOccupied())
+                {
+                    ClearLawn(lawn);
+                }
+                mHand = nullptr;
             }
             break;
         }
@@ -103,6 +107,10 @@ void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
             break;
         }
         case TID_SHOVEL:
+        {
+            mHand = interactive;
+            break;
+        }
         default:
             break;
         }
@@ -118,6 +126,18 @@ void GameWorld::RmObject(std::shared_ptr<GameObject> toBeRemoved)
 {
     mObjects.remove_if([toBeRemoved](const std::shared_ptr<GameObject>& object) 
         {return toBeRemoved == object; });
+}
+
+void GameWorld::ClearLawn(std::shared_ptr<Lawn> lawn)
+{
+    if (lawn->isOccupied() && mHand->getType() == TID_SHOVEL) {
+        mObjects.erase(
+            std::remove_if(mObjects.begin(), mObjects.end(),
+                [&lawn](const std::shared_ptr<GameObject>& obj) {
+                    return lawn->inMyDomain(obj) && obj->getType() == TID_PLANT;
+                }),
+            mObjects.end());
+    }
 }
 
 void GameWorld::MinusHP(std::shared_ptr<Entity> target,int hit)

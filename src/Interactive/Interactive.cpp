@@ -52,5 +52,8 @@ Coordinate SkySun::orbitNextCoord()
     return { mStartPoint.first,y + mStartPoint.second };
 }
 
-
+void Shovel::OnClick()
+{
+    if (mManager) mManager->NotifyMeClicked(std::static_pointer_cast<Interactive>(shared_from_this()));
+}
 
