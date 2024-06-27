@@ -15,6 +15,7 @@ using Coordinate = std::pair<int, int>;
 #include "Background.hpp"
 #include "Interactive.hpp"
 #include "Entity.hpp"
+#include "Projectile.hpp"
 
 #include "TextBase.hpp"
 #include "utils.hpp"
@@ -46,6 +47,7 @@ public:
     void SetSun(int target);
 
     void generateSunflowerSun(int x, int y);
+    void generatePea(int x, int y);
 
 
 private:

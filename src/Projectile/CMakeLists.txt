@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.16)
 
 add_library(
-  Entity
+  Projectile
   STATIC
-  Entity.hpp
-  Entity.cpp
+  Projectile.hpp
+  Projectile.cpp
 )
 
 target_link_libraries(
+  Projectile
   Entity
   Interactive
   GameWorld
   GameObject
-  Projectile
 )
 
 target_include_directories(
-  Entity
+  Projectile
   PUBLIC 
   ${CMAKE_SOURCE_DIR}/src/
   ${CMAKE_SOURCE_DIR}/src/Framework/

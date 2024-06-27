@@ -21,6 +21,11 @@ std::shared_ptr<Plant> SunflowerSeed::generate(std::shared_ptr<Lawn> lawn)
     return std::make_shared<Sunflower>(lawn->getXGrid(),lawn->getYGrid(),mManager);
 }
 
+std::shared_ptr<Plant> PeaShooterSeed::generate(std::shared_ptr<Lawn> lawn)
+{
+    return std::make_shared<PeaShooter>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
 Coordinate Sun::orbitNextCoord()
 {
     return mStartPoint;
@@ -46,3 +51,6 @@ Coordinate SkySun::orbitNextCoord()
     int y = -mMoveTick * SUN_FROM_SKY_VELOCITY;
     return { mStartPoint.first,y + mStartPoint.second };
 }
+
+
+

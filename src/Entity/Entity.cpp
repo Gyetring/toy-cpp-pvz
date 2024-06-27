@@ -44,3 +44,13 @@ void Zombie::Update()
 	}
 	MoveTo(GetX() - mVelocity, GetY());
 }
+
+void PeaShooter::Update()
+{
+	updateExist();
+	if (mShootCounter > 0) mShootCounter--;
+	else {
+		mShootCounter += randInt(40, 45);
+		mManager->generatePea(GetX(), GetY());
+	}
+}

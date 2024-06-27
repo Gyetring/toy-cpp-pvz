@@ -12,6 +12,7 @@ target_link_libraries(
   GameObject
   Interactive
   Entity
+  Projectile
 )
 
 target_include_directories(
@@ -22,4 +23,5 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/GameObject/
   ${CMAKE_SOURCE_DIR}/src/Interactive/
   ${CMAKE_SOURCE_DIR}/src/Entity/
+  ${CMAKE_SOURCE_DIR}/src/Projectile/
 )

@@ -73,6 +73,19 @@ public:
     std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
 };
 
+const int PEASHOOTER_SERIAL = 1;
+const int PEASHOOTER_COST = 100;
+const int PEASHOOTER_COOLDOWN = 250;
+
+class PeaShooterSeed :public Seed {
+public:
+    PeaShooterSeed(pGameWorld manager)
+        :Seed(IMGID_SEED_PEASHOOTER, PEASHOOTER_SERIAL,
+            PEASHOOTER_COST, PEASHOOTER_COOLDOWN, manager){}
+
+    std::shared_ptr<Plant> generate(std::shared_ptr<Lawn>) override;
+};
+
 
 const int SUN_WIDTH = 80;
 const int SUN_HEIGHT = 80;

@@ -11,7 +11,7 @@ void GameWorld::Init()
         for (int j = 0; j < GAME_ROWS; ++j)
             AddObject(std::make_shared<Lawn>(i, j, shared_from_this()));
     AddObject(std::make_shared<SunflowerSeed>(shared_from_this()));
-
+    AddObject(std::make_shared<PeaShooterSeed>(shared_from_this()));
 
 
 }
@@ -140,6 +140,11 @@ void GameWorld::SetSun(int target)
 void GameWorld::generateSunflowerSun(int x, int y)
 {
     AddObject(std::make_shared<SunflowerSun>(x, y, shared_from_this()));
+}
+
+void GameWorld::generatePea(int x, int y)
+{
+    AddObject(std::make_shared<Pea>(x, y, shared_from_this()));
 }
 
 void GameWorld::AddObject(std::shared_ptr<GameObject> obj)

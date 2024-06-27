@@ -47,6 +47,14 @@ public:
     void Update() override;
 };
 
+class PeaShooter :public Plant {
+public:
+    PeaShooter(int xGrid, int yGrid, pGameWorld manager)
+        :Plant(IMGID_PEASHOOTER, xGrid, yGrid, 300, randInt(40, 45), manager) {}
+    void Update() override;
+};
+
+
 const int ZOMBIE_WIDTH = 40;
 const int ZOMBIE_HEIGHT = 70;
 const int ZOMBIE_START_X = WINDOW_WIDTH + 25;

@@ -40,6 +40,7 @@ add_subdirectory(src/GameObject/)
 add_subdirectory(src/GameWorld/)
 add_subdirectory(src/Interactive/)
 add_subdirectory(src/Entity/)
+add_subdirectory(src/Projectile/)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(
