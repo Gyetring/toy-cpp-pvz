@@ -1,5 +1,6 @@
 #include "Projectile.hpp"
 
+<<<<<<< HEAD
 
 Projectile::Projectile(ImageID img, int startX, int startY,int width,
 	int height,pGameWorld manager, int hit)
@@ -62,12 +63,54 @@ void Explosion::Update()
 				auto potentialTarget = std::static_pointer_cast<Entity>(object);
 				if (inMyDomain(potentialTarget))
 					askHit(potentialTarget);
+=======
+void Projectile::hit(std::shared_ptr<Entity> target) const
+{
+	mManager->MinusHP(target, mHit);
+}
+
+void Pea::Update()
+{
+	//notice that exists() is necessary because kill() will not make it deleted right away.
+	if(exists())
+	{
+		auto& objects = mManager->GetObjects();
+		for (const auto& object : objects) {
+			if (object->getType() == GameObjType::Zombie) {
+				auto potentialTarget = std::static_pointer_cast<Entity>(object);
+				if (potentialTarget->inMyDomain(std::static_pointer_cast<Entity>(shared_from_this())))
+
+				{
+					hit(potentialTarget);
+					kill();
+				}
+			}
+		}
+		MoveTo(GetX() + PEA_VELOCITY, GetY());
+	}
+}
+
+void Explosion::Update()
+{
+	if (!mTriggered)
+	{
+		auto& objects = mManager->GetObjects();
+		for (const auto& object : objects) {
+			if (object->getType() == GameObjType::Zombie) {
+				auto potentialTarget = std::static_pointer_cast<Entity>(object);
+				if (inMyDomain(potentialTarget) && exists())
+					hit(potentialTarget);
+>>>>>>> refined
 			}
 		}
 		mTriggered = true;
 	}
 	else {
+<<<<<<< HEAD
 		if (mTimeLeft < 0) mLife = false;
+=======
+		if (mTimeLeft < 0) kill();
+>>>>>>> refined
 		else mTimeLeft--;
 	}
 }

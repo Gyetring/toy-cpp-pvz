@@ -1,5 +1,6 @@
 #include "Interactive.hpp"
 
+<<<<<<< HEAD
 Interactive::Interactive(ImageID img, int x, int y, LayerID layer,
     int width,int height, AnimID animID, pGameWorld manager)
     : GameObject(img, x, y, layer, width, height, animID)
@@ -25,11 +26,25 @@ bool OneLawn::isOccupied()const {
     auto& objects = mManager->getObjects();
     for (auto& object : objects) {
         if (object->getType() == TID_PLANT && inMyDomain(object))
+=======
+void Interactive::OnClick()
+{
+	if (mManager)
+		mManager->NotifyMeClicked(std::static_pointer_cast<Interactive>(shared_from_this()));
+} 
+
+bool Lawn::isOccupied() const
+{
+    auto& objects = mManager->GetObjects();
+    for (auto& object : objects) {
+        if (object->getType() == GameObjType::Plant && inMyDomain(object))
+>>>>>>> refined
             return true;
     }
     return false;
 }
 
+<<<<<<< HEAD
 TYPE_ID OneLawn::getType() const{ return TID_LAWN; }
 
 bool OneLawn::inMyDomain(const std::shared_ptr<GameObject> other) const {
@@ -106,10 +121,36 @@ Coordinate SunFromFlower::orbitNextCoord()
 {
     int x = - moveTick * SUN_FROM_FLOWER_VELOCITY;
     return { x +startPoint.first, -x * x/4 - 5 * x +startPoint.second };
+=======
+std::shared_ptr<Plant> SunflowerSeed::generate(std::shared_ptr<Lawn> lawn)const
+{
+    return std::make_shared<Sunflower>(lawn->getXGrid(),lawn->getYGrid(),mManager);
+}
+
+std::shared_ptr<Plant> PeaShooterSeed::generate(std::shared_ptr<Lawn> lawn)const
+{
+    return std::make_shared<PeaShooter>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
+std::shared_ptr<Plant> WallNutSeed::generate(std::shared_ptr<Lawn> lawn)const
+{
+    return std::make_shared<WallNut>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
+std::shared_ptr<Plant> CherryBombSeed::generate(std::shared_ptr<Lawn> lawn)const
+{
+    return std::make_shared<CherryBomb>(lawn->getXGrid(), lawn->getYGrid(), mManager);
+}
+
+Coordinate Sun::orbitNextCoord() const
+{
+    return mStartPoint;
+>>>>>>> refined
 }
 
 void Sun::Update()
 {
+<<<<<<< HEAD
     if (moveTick < mMoveDuration) {
         Coordinate next(orbitNextCoord());
         MoveTo(next.first, next.second);
@@ -166,3 +207,30 @@ bool CherryBombSeed::askPlant(std::shared_ptr<OneLawn> lawn)
     return mManager->tryPlant(lawn, std::make_shared<CherryBomb>
         (lawn->getXGrid(), lawn->getYGrid(), mManager));
 }
+=======
+    if (mMoveTick < mMoveDuration) {
+        Coordinate next(orbitNextCoord());
+        MoveTo(next.first, next.second);
+        mMoveTick++;
+    }
+}
+
+Coordinate SunflowerSun::orbitNextCoord() const
+{
+    int x = -mMoveTick * SUN_FROM_FLOWER_VELOCITY;
+    return { x + mStartPoint.first, -x * x / 4 - 5 * x + mStartPoint.second };
+}
+
+Coordinate SkySun::orbitNextCoord() const
+{
+    int y = -mMoveTick * SUN_FROM_SKY_VELOCITY;
+    return { mStartPoint.first,y + mStartPoint.second };
+}
+
+void Shovel::OnClick()
+{
+    if (mManager) mManager->NotifyMeClicked(std::static_pointer_cast<Interactive>(shared_from_this()));
+}
+
+
+>>>>>>> refined

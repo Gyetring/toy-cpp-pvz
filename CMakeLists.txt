@@ -38,10 +38,16 @@ ENDIF()
 add_subdirectory(src/Framework/)
 add_subdirectory(src/GameObject/)
 add_subdirectory(src/GameWorld/)
+<<<<<<< HEAD
 add_subdirectory(src/Interactive)
 add_subdirectory(src/Plant)
 add_subdirectory(src/Zombie)
 add_subdirectory(src/Projectile)
+=======
+add_subdirectory(src/Interactive/)
+add_subdirectory(src/Entity/)
+add_subdirectory(src/Projectile/)
+>>>>>>> refined
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(

@@ -5,6 +5,8 @@ add_library(
   STATIC
   GameObject.hpp
   GameObject.cpp
+  Background.hpp
+  Background.cpp
 )
 
 target_link_libraries(
