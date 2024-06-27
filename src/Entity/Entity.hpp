@@ -7,8 +7,9 @@
 
 class Entity : public GameObject {
 protected:
-    int mHP;;
+    int mHP;
     void updateExist() { if (mHP <= 0) kill(); }
+    friend GameWorld;
 
 public:
     Entity(ImageID imageID, int x, int y, LayerID layer,
@@ -16,6 +17,7 @@ public:
         :GameObject(imageID, x, y, layer, width, height, animID,manager),
         mHP(hp){}
     void OnClick() override {}
+    int getHP() const { return mHP; }
 };
 
 const int PLANT_WIDTH = 100;
@@ -43,6 +45,38 @@ public:
     Sunflower(int xGrid, int yGrid, pGameWorld manager)
         :Plant(IMGID_SUNFLOWER, xGrid, yGrid, 300, randInt(90, 300), manager){}
     void Update() override;
+};
+
+const int ZOMBIE_WIDTH = 40;
+const int ZOMBIE_HEIGHT = 70;
+const int ZOMBIE_START_X = WINDOW_WIDTH + 25;
+const int ZOMBIE_PASS_X = -25;
+
+class Zombie : public Entity {
+protected:
+    int mVelocity;
+    int mHit;
+    bool mEating;
+
+public:
+    Zombie(ImageID img, int row, int hp, int velocity, pGameWorld manager, int hit)
+        :  Entity(img, ZOMBIE_START_X, FIRST_ROW_CENTER + row * LAWN_GRID_HEIGHT,
+            LAYER_ZOMBIE, ANIMID_WALK_ANIM, hp, ZOMBIE_WIDTH, ZOMBIE_HEIGHT, manager),
+        mVelocity(velocity), mHit(hit), mEating(false) {}
+    void hit(std::shared_ptr<Entity> other, int hit);
+    void Update() override;
+    TYPE_ID getType()const override { return TID_ZOMBIE; }
+};
+
+const int REGULAR_ZOMBIE_VELOCITY = 1;
+const int REGULAR_ZOMBIE_HIT = 2;
+const int REGULAR_ZOMBIE_HP = 190;
+
+class RegularZombie :public Zombie {
+public:
+    RegularZombie(int row, pGameWorld manager)
+        : Zombie(IMGID_REGULAR_ZOMBIE, row,
+            REGULAR_ZOMBIE_HP, REGULAR_ZOMBIE_VELOCITY, manager, REGULAR_ZOMBIE_HIT) {}
 };
 
 #endif // !ENTITY_HPP__

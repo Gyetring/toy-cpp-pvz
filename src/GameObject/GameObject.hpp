@@ -27,6 +27,7 @@ public:
     virtual TYPE_ID getType() const = 0;
     void kill();
     bool exists() const;
+    bool inMyDomain(const std::shared_ptr<GameObject> other) const;
 
 private:
     bool mExist = true;
@@ -38,7 +39,6 @@ protected:
         int width, int height,AnimID animID, pGameWorld manager) 
         : ObjectBase(imageID, x, y, layer, width, height, animID),mManager(manager) {}
 
-    bool inMyDomain(const std::shared_ptr<GameObject> other) const;
 };
 
 

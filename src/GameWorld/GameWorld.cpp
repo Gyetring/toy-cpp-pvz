@@ -28,6 +28,22 @@ LevelStatus GameWorld::Update()
             randInt(50 + WINDOW_HEIGHT, 2 * WINDOW_HEIGHT - 50), shared_from_this()));
         mSkyTimer = randInt(180, 210);
     }
+    if (mZombieTimer >= 0)
+    {
+        mZombieTimer--;
+    }
+    else
+    {
+        AddObject(std::make_shared<RegularZombie>(randInt(0, 4), shared_from_this()));
+        mZombieTimer = randInt(300, 400);
+    }
+    for (auto& object : mObjects)
+    {
+        object->Update();
+        if (object->getType() == TID_ZOMBIE && object->GetX() <= ZOMBIE_PASS_X)
+            return LevelStatus::LOSING;
+
+    }
 
     for (auto& object : mObjects)
         object->Update();
@@ -41,6 +57,8 @@ LevelStatus GameWorld::Update()
 
 void GameWorld::CleanUp()
 {
+    mObjects.erase(mObjects.begin(), mObjects.end());
+    SetSun(50);
 }
 
 void GameWorld::NotifyMeClicked(std::shared_ptr<Interactive> interactive)
@@ -100,6 +118,12 @@ void GameWorld::RmObject(std::shared_ptr<GameObject> toBeRemoved)
 {
     mObjects.remove_if([toBeRemoved](const std::shared_ptr<GameObject>& object) 
         {return toBeRemoved == object; });
+}
+
+void GameWorld::MinusHP(std::shared_ptr<Entity> target,int hit)
+{
+    if (target)
+        target->mHP -= hit;
 }
 
 int GameWorld::GetSun() const
